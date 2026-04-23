@@ -1,3 +1,7 @@
+@use '/node_modules/modern-normalize/modern-normalize.css';
+@use './components/index.scss';
+
 body {
-  background-color: black;
+  display: grid;
+  grid-template-columns: auto 1fr;
 }

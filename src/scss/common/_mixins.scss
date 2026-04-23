@@ -1,0 +1,10 @@
+@use './extends';
+
+@mixin flex-settings ($fd: row, $fw: no-wrap, $gap: 0, $jc: start, $ai: stretch) {
+  @if ($fd != row) { flex-direction: $fd; }
+  @if ($fw != no-wrap){ flex-wrap: $fw; }
+  @if ($gap != 0){ gap: $gap; }
+  @if ($jc != start){ justify-content: $jc; }
+  @if ($ai != stretch){ align-items: $ai; }
+  @extend %disp-flex;
+}

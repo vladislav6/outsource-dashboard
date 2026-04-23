@@ -4,9 +4,37 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>outsource-dashboard</title>
+    <title>Dashboard</title>
   </head>
   <body>
+    <aside class="navigation">
+      <button class="burger">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </button>
+      <div class="month-year">
+        <p>Period</p>
+        <select name="months" class="months"></select>
+        <select name="years" class="years"></select>
+      </div>
+      <ul class="links"></ul>
+    </aside>
+    <div class="wrapper">
+      <header>
+        <h1 class="page-name">Projects</h1>
+        <button class="btn seed-data">Seed data</button>
+        <button class="btn add-project">Add project</button>
+      </header>
+      <main>
+        <table>
+          <tr>
+            <th>Company Name</th>
+            <th>Project Name</th>
+          </tr>
+        </table>
+      </main>
+    </div>
     <script type="module" src="/src/js/main.js"></script>
   </body>
 </html>
