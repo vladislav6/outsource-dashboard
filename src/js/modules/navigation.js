@@ -1,14 +1,5 @@
-
-const links = [
-  {
-    title: 'Projects',
-    active: true,
-  },
-  {
-    title: 'Employees',
-    active: false,
-  },
-];
+import { links as pages } from '../common/lists';
+import { getHeader } from './header';
 
 function addLinksToNav(linksList) {
   const links = document.querySelector('.links');
@@ -18,7 +9,7 @@ function addLinksToNav(linksList) {
     liElement.textContent = link.title;
     liElement.setAttribute('data-id', index);
     liElement.className = 'link';
-    if (link.active) {
+    if (link.default) {
       liElement.classList.add('active');
     }
 
@@ -32,10 +23,11 @@ function switchPage (links) {
     link.addEventListener('click', (e) => {
       linkArr.map((link) => link.classList.remove('active'));
       e.currentTarget.classList.add('active');
+      const linkId = e.currentTarget.getAttribute('data-id');
+      getHeader(pages[linkId]);
     });
   });
 }
 
-addLinksToNav(links);
+addLinksToNav(pages);
 switchPage(document.querySelectorAll('.link'));
-

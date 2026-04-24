@@ -1,23 +1,6 @@
-const months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December"
-];
+import { months, years } from '../common/lists';
 
-const years = [
-  2025,
-  2026,
-  2027
-];
+const period = document.querySelector('.period');
 
 function addSelectMonthOptions (options) {
   const selectMonths = document.querySelector('.months');

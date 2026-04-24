@@ -5,3 +5,9 @@ body {
   display: grid;
   grid-template-columns: auto 1fr;
 }
+
+@media (max-width: 725px) {
+  body {
+    grid-template-columns: 1fr;
+  }
+}

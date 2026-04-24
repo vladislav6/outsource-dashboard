@@ -23,7 +23,7 @@
       width: 30px;
       height: 4px;
       background-color: v.$static-white;
-      border-radius: 5px;
+      @extend %radius5px;
     }
   }
 
@@ -31,7 +31,7 @@
     background-color: v.$dark-hover;
   }
 
-  .month-year {
+  .period {
     width: 100%;
     @include m.flex-settings (column, no-wrap, 20px, start, center);
     border-bottom: 1px solid v.$dark-hover;
@@ -41,7 +41,7 @@
     .years {
       width: 80%;
       padding: 10px;
-      border-radius: 5px;
+      @extend %radius5px;
       cursor: pointer;
       background-color: v.$dark-select;
       color: v.$static-white;
@@ -78,7 +78,7 @@
     top: 10px;
     left: 10px;
     width: 60px;
-    border-radius: 5px;
+    @extend %radius5px;
     @extend %shadow;
 
     .line:first-child,
@@ -96,5 +96,14 @@
     .line:last-child {
       transform: rotate(-45deg);
     }
+  }
+}
+
+@media (max-width: 725px) {
+  .navigation {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
   }
 }
