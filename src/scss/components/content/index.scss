@@ -1,0 +1,67 @@
+@use '../../common/variables' as v;
+@use '../../common/mixins' as m;
+@use '../../common/extends';
+
+.main {
+  width: calc(100vw - 320px);
+  padding: 20px;
+  overflow-x: scroll;
+  transition: width .4s ease;
+
+  .table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 0 auto;
+    box-shadow: 2px 2px 12px v.$dark;
+    border-radius: 10px 10px 0 0;
+
+    th {
+      min-width: 150px;
+      padding: 20px 0;
+      background-color: v.$dark;
+      color: v.$static-white;
+    }
+
+    th:first-of-type {
+      border-radius: 10px 0 0 0;
+    }
+
+     th:last-of-type {
+      border-radius: 0 10px 0 0;
+    }
+
+    .sortable {
+      cursor: pointer;
+    }
+
+    .sortable:hover {
+      background-color: v.$dark-hover;
+    }
+  }
+
+  .total-income {
+    margin-bottom: 0;
+    padding: 20px 0 0 20px;
+    font-weight: bold;
+
+    .total {
+      color: v.$green;
+      font-size: large;
+    }
+  }
+}
+
+.main-full-width {
+  width: 100vw;
+}
+
+@media (max-width: 810px) {
+  .main {
+    width: 100vw;
+
+    table {
+      border-collapse: collapse;
+      min-width: 700px;
+    }
+  }
+}

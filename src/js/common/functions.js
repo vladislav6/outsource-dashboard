@@ -16,3 +16,15 @@ export function clearDOM(parent) {
     parent.removeChild(parent.firstChild);
   }
 }
+
+export function createMyElement(element, classElement = '', textElement = '') {
+  const myElement = document.createElement(element);
+  if (textElement) {
+    myElement.textContent = textElement;
+  }
+  if (classElement) {
+    myElement.className = classElement;
+  }
+
+  return myElement;
+}

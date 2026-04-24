@@ -47,6 +47,11 @@
       color: v.$static-white;
       font-weight: bold;
     }
+
+    .months:hover,
+    .years:hover {
+      background-color: v.$dark-hover;
+    }
   }
 
   .links {
@@ -99,7 +104,7 @@
   }
 }
 
-@media (max-width: 725px) {
+@media (max-width: 810px) {
   .navigation {
     position: absolute;
     top: 0;

@@ -4,9 +4,10 @@
 body {
   display: grid;
   grid-template-columns: auto 1fr;
+  font-family: Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
 }
 
-@media (max-width: 725px) {
+@media (max-width: 810px) {
   body {
     grid-template-columns: 1fr;
   }

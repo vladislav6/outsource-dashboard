@@ -1,3 +1,5 @@
+import { createMyElement } from "./functions";
+
 export const links = [
   {
     title: 'Projects',
@@ -5,18 +7,10 @@ export const links = [
     default: true,
     buttons: {
       addProject: function() {
-        const btn = document.createElement('button');
-        btn.textContent = '+Add project';
-        btn.classList = 'btn add-project';
-
-        return btn;
+        return createMyElement('button', 'btn add-project', '+Add project');
       },
       seedData: function() {
-        const btn = document.createElement('button');
-        btn.textContent = 'Seed data';
-        btn.classList = 'btn seed-data';
-
-        return btn;
+        return createMyElement('button', 'btn seed-data', 'Seed data');
       },
     }
   },
@@ -25,12 +19,8 @@ export const links = [
     id: 1,
     default: false,
     buttons: {
-      addEmployees: function() {
-        const btn = document.createElement('button');
-        btn.textContent = '+Add employee';
-        btn.classList = 'btn add-employee';
-
-        return btn;
+      addEmployee: function() {
+        return createMyElement('button', 'btn add-employee', '+Add employee');
       }
     }
   },

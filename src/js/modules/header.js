@@ -1,19 +1,15 @@
 import { links } from '../common/lists';
-import { getCurrentPeriod, clearDOM } from '../common/functions';
+import { getCurrentPeriod, clearDOM, createMyElement } from '../common/functions';
 
 export function getHeader(page) {
   
   const header = document.querySelector('.header');
   clearDOM(header);
-  const titleBlock = document.createElement('div');
-  const btnBlock = document.createElement('div');
-  const pageTitle = document.createElement('h1');
-  pageTitle.classList.add('page-title');
-  pageTitle.textContent = page.title;
+  const titleBlock = createMyElement('div');
+  const btnBlock = createMyElement('div');
+  const pageTitle = createMyElement('h1', 'page-title', page.title);
 
-  const period = document.createElement('p');
-  period.classList.add('current-period');
-  period.textContent = getCurrentPeriod().period;
+  const period = createMyElement('p', 'current-period', getCurrentPeriod().period );
 
   window.addEventListener('load', () =>
     period.textContent = getCurrentPeriod().period);
@@ -24,15 +20,10 @@ export function getHeader(page) {
   
   titleBlock.append(pageTitle, period);
 
-  if (page.id === 0) {
-    const btnAddProject = page.buttons.addProject();
-    const btnSeedData = page.buttons.seedData();
-    
-    btnBlock.append(btnSeedData, btnAddProject);
-  }
-  if (page.id === 1) {
-    const btnAddEmployees = page.buttons.addEmployees();
-    btnBlock.append(btnAddEmployees);
+  for (let key in page.buttons) {
+    const btn = page.buttons[key]();
+
+     btnBlock.append(btn);
   }
 
   header.append(titleBlock, btnBlock);
@@ -40,5 +31,4 @@ export function getHeader(page) {
   return header;
 }
 
-getHeader(links[0]);
-
+links.filter((link) => link.default ? getHeader(link) : '');
