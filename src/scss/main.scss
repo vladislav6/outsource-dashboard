@@ -1,5 +1,6 @@
 @use '/node_modules/modern-normalize/modern-normalize.css';
 @use './components/index.scss';
+@use './common/variables' as v;
 
 body {
   display: grid;
@@ -8,8 +9,44 @@ body {
   overflow-x: hidden;
 }
 
+.btn {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  @extend %shadow;
+}
+
+.table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0 auto;
+  box-shadow: 2px 2px 12px v.$dark;
+  border-radius: 10px 10px 0 0;
+
+  th {
+    width: 150px;
+    padding: 20px 0;
+    background-color: v.$dark;
+    color: v.$static-white;
+  }
+
+   th:first-of-type {
+    border-radius: 10px 0 0 0;
+  }
+
+    th:last-of-type {
+    border-radius: 0 10px 0 0;
+  }
+}
+
 @media (max-width: 810px) {
   body {
     grid-template-columns: 1fr;
+  }
+  
+  .table {
+    th {
+      padding: 10px 0;
+    }
   }
 }

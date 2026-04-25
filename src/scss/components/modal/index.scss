@@ -1,0 +1,66 @@
+@use '../../common/variables' as v;
+@use '../../common/mixins' as m;
+@use '../../common/extends';
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background-color: v.$overlay;
+  @include m.flex-settings (row, no-wrap, 0, center, center);
+  cursor: pointer;
+
+  .modal {
+    background-color: v.$static-white;
+    width: 80vw;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 4px 20px;
+    @extend %radius5px;
+    position: relative;
+    cursor: default;
+  
+    &-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      padding: 10px 15px;
+      background-color: v.$silver;
+      color: v.$static-white;
+      font-weight: bold;
+    }
+
+    &-close:hover {
+      background-color: v.$silver-hover;
+    }
+
+    &-title {
+      background-color: v.$dark;
+      margin: 0;
+      padding: 20px;
+      border-radius: 5px 5px 0 0;
+      color: v.$static-white;
+    }
+
+    &-content {
+      padding: 20px;
+      background-color: v.$content-background;
+      overflow-x: scroll;
+
+      .table {
+        min-width: 600px;
+      }
+    }
+
+    &-text {
+      color: v.$silver;
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  .overlay {
+    .modal {
+      &-title {
+        font-size: 15px;
+      }
+    }
+  }
+}

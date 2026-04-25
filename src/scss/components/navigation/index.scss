@@ -112,3 +112,9 @@
     bottom: 0;
   }
 }
+
+@media (max-height: 425px) {
+  .navigation {
+    overflow-Y: scroll;
+  }
+}

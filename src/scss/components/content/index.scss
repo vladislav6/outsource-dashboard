@@ -9,25 +9,9 @@
   transition: width .4s ease;
 
   .table {
-    border-collapse: collapse;
-    width: 100%;
-    margin: 0 auto;
-    box-shadow: 2px 2px 12px v.$dark;
-    border-radius: 10px 10px 0 0;
 
     th {
       min-width: 150px;
-      padding: 20px 0;
-      background-color: v.$dark;
-      color: v.$static-white;
-    }
-
-    th:first-of-type {
-      border-radius: 10px 0 0 0;
-    }
-
-     th:last-of-type {
-      border-radius: 0 10px 0 0;
     }
 
     .sortable {
