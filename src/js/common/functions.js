@@ -28,3 +28,11 @@ export function createMyElement(element, classElement = '', textElement = '') {
 
   return myElement;
 }
+
+export function createForm() {
+  return createMyElement('form');
+}
+
+export function makeSeedData(period) {
+  return createMyElement('p', '', period.period);
+}

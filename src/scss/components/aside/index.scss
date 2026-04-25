@@ -1,0 +1,19 @@
+@use '../../common/variables' as v;
+@use '../../common/mixins' as m;
+@use '../../common/extends';
+
+.aside-right {
+  width: 350px;
+  height: 100vh;
+  transform: translateX(350px);
+  position: fixed;
+  top: 0;
+  right: 0;
+  background-color: v.$static-white;
+  
+}
+
+.show {
+  transform: translateX(0);
+  box-shadow: rgba(0, 0, 0, 0.1) -2px 0px 10px;
+}

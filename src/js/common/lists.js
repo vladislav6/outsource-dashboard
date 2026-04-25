@@ -6,12 +6,8 @@ export const links = [
     id: 0,
     default: true,
     buttons: {
-      addProject: function() {
-        return createMyElement('button', 'btn add-project', '+Add project');
-      },
-      seedData: function() {
-        return createMyElement('button', 'btn seed-data', 'Seed data');
-      },
+      addProject: createMyElement('button', 'btn add-project', '+Add project'),
+      seedData: createMyElement('button', 'btn seed-data', 'Seed data'),
     }
   },
   {
@@ -19,9 +15,7 @@ export const links = [
     id: 1,
     default: false,
     buttons: {
-      addEmployee: function() {
-        return createMyElement('button', 'btn add-employee', '+Add employee');
-      }
+      addEmployee: createMyElement('button', 'btn add-employee', '+Add employee')
     }
   },
 ];

@@ -1,5 +1,20 @@
 import { links } from '../common/lists';
-import { getCurrentPeriod, clearDOM, createMyElement } from '../common/functions';
+import { getCurrentPeriod, clearDOM, createMyElement, makeSeedData, createForm } from '../common/functions';
+
+function headerButtons(button) {
+  const asidePanel = document.querySelector('.aside-right');
+  asidePanel.classList.add('show');
+  let panelContent = createMyElement('div');
+  switch (button) {
+    case 'seedData': panelContent = makeSeedData(getCurrentPeriod()); break;
+    case 'addProject': panelContent = createForm(); break;
+    case 'addEmployee': panelContent = createForm(); break;
+  }
+  clearDOM(asidePanel);
+  const closeAside = createMyElement('button', 'close-aside', 'X');
+  asidePanel.append(closeAside, panelContent);
+  closeAside.addEventListener('click', () => asidePanel.classList.toggle('show'));
+}
 
 export function getHeader(page) {
   
@@ -21,9 +36,10 @@ export function getHeader(page) {
   titleBlock.append(pageTitle, period);
 
   for (let key in page.buttons) {
-    const btn = page.buttons[key]();
+    const btn = page.buttons[key];
 
-     btnBlock.append(btn);
+    btn.addEventListener('click', () => headerButtons(key));
+    btnBlock.append(btn);
   }
 
   header.append(titleBlock, btnBlock);
