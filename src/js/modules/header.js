@@ -1,26 +1,22 @@
 import { links, formProject, formEmployee } from '../common/lists';
-import { getCurrentPeriod, clearDOM, createMyElement, createForm, createModal } from '../common/functions';
+import { getCurrentPeriod, clearDOM, createMyElement, createModal } from '../common/functions';
+import { createForm } from './form';
+
+const asidePanel = document.querySelector('.aside-right');
 
 function addButtons(button) {
-  const asidePanel = document.querySelector('.aside-right');
-  asidePanel.classList.remove('no-smooth');
-  asidePanel.classList.add('show');
-  let panelContent = createMyElement('div');
-  let panelTitle = createMyElement('h2', 'panel-title', '');
-  switch (button) {
-    case 'addProject':
-    panelContent = createForm('project', formProject);
-    panelTitle.textContent = 'Add New Project';
-    break;
-    case 'addEmployee':
-      panelContent = createForm('employee', formEmployee);
-      panelTitle.textContent = 'Add New Employee';
-      break;
+  if (!asidePanel.hasChildNodes() ) {
+    asidePanel.classList.remove('no-smooth');
+    asidePanel.classList.add('show');
+    const formPanel = button === 'addProject' ? formProject : formEmployee;
+    const formClass = button === 'addProject' ? 'project-form' : 'employee-form';
+    const formTitle = button === 'addProject' ? 'Add New Project' : 'Add New Employee';
+    
+    const panelContentProject = createForm(formPanel, formClass, asidePanel);
+    const panelTitleProject = createMyElement('h2', 'panel-title', formTitle);
+    
+    asidePanel.append(panelTitleProject, panelContentProject);
   }
-  clearDOM(asidePanel);
-  const closeAside = createMyElement('button', 'close-aside', 'X');
-  asidePanel.append(closeAside, panelTitle, panelContent);
-  closeAside.addEventListener('click', () => asidePanel.classList.toggle('show'));
 }
 
 export function makeSeedData(period) {
@@ -70,6 +66,7 @@ export function getHeader(page) {
     const btn = page.buttons[key]();
 
     btn.addEventListener('click', () => key === 'seedData' ? makeSeedData(getCurrentPeriod()) : addButtons(key));
+
     btnBlock.append(btn);
   }
 

@@ -29,13 +29,6 @@ export function createMyElement(element, classElement = '', textElement = '') {
   return myElement;
 }
 
-export function createForm(formFor, aboutForm) {
-  const form = createMyElement('form', formFor);
-  form.action = '';
-
-  return form;
-}
-
 export function createModal(aboutModal) {
   const overlay = createMyElement('div', 'overlay');
   const modal = createMyElement('div', 'modal');

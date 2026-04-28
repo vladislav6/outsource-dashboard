@@ -1,5 +1,5 @@
 import { links as pages } from '../common/lists';
-import { createMyElement } from '../common/functions';
+import { createMyElement, clearDOM } from '../common/functions';
 import { getHeader } from './header';
 import { getContent } from './content';
 
@@ -27,6 +27,11 @@ function switchPage (links) {
       const linkId = Number(e.currentTarget.getAttribute('data-id'));
       getHeader(pages[linkId]);
       getContent(linkId);
+      if (document.querySelector('.aside-right')) {
+        const asidePanel = document.querySelector('.aside-right');
+        asidePanel.classList.remove('show');
+        clearDOM(asidePanel);
+      }
     });
   });
 }

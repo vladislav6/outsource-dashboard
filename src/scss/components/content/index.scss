@@ -1,6 +1,4 @@
 @use '../../common/variables' as v;
-@use '../../common/mixins' as m;
-@use '../../common/extends';
 
 .main {
   width: calc(100vw - 320px);

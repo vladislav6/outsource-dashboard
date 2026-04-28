@@ -1,6 +1,5 @@
 @use '../../common/variables' as v;
 @use '../../common/mixins' as m;
-@use '../../common/extends';
 
 .header {
   @include m.flex-settings (row, no-wrap, 0, space-between, stretch);
