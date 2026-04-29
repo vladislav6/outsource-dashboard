@@ -36,7 +36,7 @@ export function makeSeedData(period) {
   const seedDataContent = {
     title: 'Seed Data from Month',
     content: seedTable,
-    text: `Select a month to copy its data to the current month (${period.month} ${period.year}):`
+    text: `Select a month to copy its data to the current month (${period.period}):`
   };
   const modal = createModal(seedDataContent);
 
@@ -51,14 +51,14 @@ export function getHeader(page) {
   const btnBlock = createMyElement('div');
   const pageTitle = createMyElement('h1', 'page-title', page.title);
 
-  const period = createMyElement('p', 'current-period', getCurrentPeriod().period );
+  const period = createMyElement('p', 'current-period', `period:  ${getCurrentPeriod().period}`);
 
   window.addEventListener('load', () =>
-    period.textContent = getCurrentPeriod().period);
+    period.textContent = `period:  ${getCurrentPeriod().period}`);
   document.querySelector('.months').addEventListener('change', () =>
-    period.textContent = getCurrentPeriod().period);
+    period.textContent = `period:  ${getCurrentPeriod().period}`);
   document.querySelector('.years').addEventListener('change', () =>
-    period.textContent = getCurrentPeriod().period);
+    period.textContent = `period:  ${getCurrentPeriod().period}`);
   
   titleBlock.append(pageTitle, period);
 

@@ -1,4 +1,17 @@
-import { createMyElement, clearDOM } from "../common/functions";
+import { createMyElement, clearDOM, getCurrentPeriod } from "../common/functions";
+
+function isValid() {
+  const [addButton, ...other] = arguments;
+  const isValid = other.every((value) => value === true);
+
+  if (isValid) {
+    addButton.disabled = false;
+    addButton.classList.remove('disable');
+  } else {
+    addButton.disabled = true;
+    addButton.classList.add('disable');
+  }
+}
 
 function closeAside(aside, form) {
   aside.classList.remove('show');
@@ -19,8 +32,14 @@ function getValues(form) {
     ...form.getElementsByTagName('select')
   ];
   const addButton = form.querySelector('.addButton');
+  const assignments = [];
+  const id = Array
+    .from({ length: 6 }, () => Math.floor(Math.random() * 10))
+    .join('');
 
-  const allValue = getAllInput.map((input) => input.value.trim());
+  const allValuesInput = getAllInput.map((input) => input.value.trim());
+  const allValue = form.getElementsByTagName('select').length !== 0 ?
+    [...allValuesInput, id, assignments] : [...allValuesInput, id];
   const allTitle = getAllInput.map((input) => input.title);
   const inputs = getAllInput.map((input) => input);
 
@@ -112,20 +131,13 @@ function validateProjectForm(form) {
     typeof employeeCapacityValue !== 'number' ?
     setInvalid(employeeCapacity, employeeCapacityTitle) : setValid(employeeCapacity);
 
-  const isValid = [
+  isValid(
+    form.button,
     isValidProjectName,
     isValidCompanyName,
     isValidBudget,
     isValidEmployeeCapacity
-  ].every((value) => value === true);
-
-  if (isValid) {
-    form.button.disabled = false;
-    form.button.classList.remove('disable');
-  } else {
-    form.button.disabled = true;
-    form.button.classList.add('disable');
-  }
+  );
 }
 
 function validateEmployeeForm(form) {
@@ -154,35 +166,29 @@ function validateEmployeeForm(form) {
     positionTitle
   ] = form.allTitle;
 
-  console.log();
-
   const isValidEmployeeName = employeeNameValue.length < 3 ?
     setInvalid(employeeName, employeeNameTitle) : setValid(employeeName);
+
   const isValidEmployeeSurname = employeeSurnameValue.length < 3 ?
     setInvalid(employeeSurname, employeeSurnameTitle) : setValid(employeeSurname);
+
   const isValidBirthday = !birthdayValid(birthdayValue) ?
     setInvalid(birthday, birthdayTitle) : setValid(birthday);
-  const isValidSalary = salaryValue <= 0 &&
-    typeof salaryValue !== 'number' ?
+
+  const isValidSalary = salaryValue <= 0 && typeof salaryValue !== 'number' ?
     setInvalid(salary, salaryTitle) : setValid(salary);
+
   const isValidPosition = positionValue === '' ?
     setInvalid(position, positionTitle) : setValid(position);
-  
-  const isValid = [
+    
+  isValid(
+    form.button,
     isValidEmployeeName,
     isValidEmployeeSurname,
     isValidBirthday,
     isValidSalary,
     isValidPosition
-  ].every((value) => value === true);
-
-  if (isValid) {
-    form.button.disabled = false;
-    form.button.classList.remove('disable');
-  } else {
-    form.button.disabled = true;
-    form.button.classList.add('disable');
-  }
+  );
 }
 
 
@@ -296,7 +302,58 @@ export function createForm(aboutForm, classForm, asidePanelElement) {
     if (e.target.type === 'submit') {
       form.addEventListener('submit', (event) => {
         event.preventDefault();
-        closeAside(asidePanelElement, form);
+        
+        const month = getCurrentPeriod().month;
+        const year = getCurrentPeriod().year;
+
+        const valuesFromForm = form.classList[1];
+
+        const dataProject = {}
+        const dataEmployee = {}
+        if (localStorage.getItem('monthlyData')) {
+          const monthlyData = JSON.parse(localStorage.getItem('monthlyData'));
+          console.log(monthlyData);
+          if (valuesFromForm === 'project-form') {
+            const [
+              project,
+              company,
+              budget,
+              capacity,
+              id
+            ] = allValues;
+            dataProject.id = id;
+            dataProject.project = project;
+            dataProject.company = company;
+            dataProject.budget = budget;
+            dataProject.capacity = capacity;
+            if (monthlyData.hasOwnProperty(`${year}-${month}`)) {
+              monthlyData[`${year}-${month}`].projects.push(dataProject);
+              localStorage.setItem('monthlyData', JSON.stringify(monthlyData));
+            }
+          } else {
+            const [
+              name,
+              surname,
+              dob,
+              salary,
+              position,
+              id,
+              assignments
+            ] = allValues;
+            dataEmployee.id = id;
+            dataEmployee.name = name;
+            dataEmployee.surname = surname;
+            dataEmployee.dob = dob;
+            dataEmployee.salary = salary;
+            dataEmployee.position = position;
+            dataEmployee.assignments = assignments;
+
+            monthlyData[`${year}-${month}`].employees.push(dataEmployee);
+            localStorage.setItem('monthlyData', JSON.stringify(monthlyData));
+          }
+          closeAside(asidePanelElement, form);
+          console.log(monthlyData);
+        }
       });
     }
     

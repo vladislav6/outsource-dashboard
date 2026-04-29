@@ -5,9 +5,9 @@ export function getCurrentPeriod () {
   const year = document.querySelector('.years').value;
 
   return {
-    month: months[month],
+    month,
     year,
-    period: `period: ${months[month]} ${year}`
+    period: `${months[month]} ${year}`
   };
 }
 
