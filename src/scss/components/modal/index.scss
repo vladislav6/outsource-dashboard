@@ -86,6 +86,42 @@
       }
     }
   }
+
+  .seed-data {
+    .table {
+      td {
+        padding: 20px;
+        text-align: center;
+      }
+
+      td:nth-child(5){
+        font-weight: bold;
+      }
+
+      tr:nth-child(even) {
+        background-color: v.$content-background;
+        border-top: 1px solid v.$content-border;
+        border-bottom: 1px solid v.$content-border;
+      }
+
+      tr:hover {
+        background-color: v.$content-background-hover;
+      }
+
+      .btn {
+        padding: 5px 10px;
+        color: v.$static-white;
+      }
+
+      .seed {
+        background-color: v.$green;
+      }
+
+      .seed:hover {
+        background-color: v.$green-hover;
+      }
+    }
+  }
 }
 
 @media (max-width: 400px) {
@@ -93,6 +129,27 @@
     .modal {
       &-title {
         font-size: 15px;
+      }
+    }
+  }
+}
+
+@media (max-height: 700px) {
+  .overlay {
+    height: 100vh;
+    overflow: hidden;
+    
+    .modal {
+      height: 90vh;
+      overflow: hidden;
+
+      &-content {
+        height: 80vh;
+        overflow: scroll;
+
+        .table {
+          margin-bottom: 50px;
+        }
       }
     }
   }

@@ -1,6 +1,7 @@
-import { links, formProject, formEmployee } from '../common/lists';
-import { getCurrentPeriod, clearDOM, createMyElement, createModal, noData } from '../common/functions';
+import { links, formProject, formEmployee, months } from '../common/lists';
+import { getCurrentPeriod, clearDOM, createMyElement, createModal, noData, createConfirm } from '../common/functions';
 import { createForm } from './form';
+import { getContent } from './content';
 
 const asidePanel = document.querySelector('.aside-right');
 
@@ -41,7 +42,44 @@ export function makeSeedData(period) {
         monthlyData[key].projects.length !== 0 ||
         monthlyData[key].employees.length !== 0
       ) {
-        seedTable.removeChild(trNoData);
+        const currentPeriod = `${period.year}-${period.month}`;
+        if (key !== currentPeriod) {
+          if (seedTable.querySelector('.no-data')) {
+            seedTable.removeChild(trNoData);
+          }
+          const [year, month] = key.split('-');
+          const projectCount = String(monthlyData[key].projects.length);
+          const employeeCount = String(monthlyData[key].employees.length);
+          const total = document.querySelector('.total').textContent;
+
+          const tr = createMyElement('tr');
+          const tdYear = createMyElement('td', '', year);
+          const tdMonth = createMyElement('td', '', months[month]);
+          const tdProject = createMyElement('td', '', projectCount);
+          const tdEmployee = createMyElement('td', '', employeeCount);
+          const tdTotal = createMyElement('td', '', total);
+          const tdAction = createMyElement('td');
+          const seedButton = createMyElement('button', 'btn seed', 'Seed');
+
+          seedButton.addEventListener('click', () => {
+            document.body.append(createConfirm(`Copy data from ${months[month]} ${year} to ${period.period}?`));
+              if (document.body.querySelector('.confirm')) {
+                document.body.querySelector('.confirm').addEventListener('click', () => {
+                  monthlyData[`${period.year}-${period.month}`] = monthlyData[key];
+                  localStorage.setItem('monthlyData', JSON.stringify(monthlyData));
+                  getContent(0);
+                  [...document.querySelectorAll('.overlay')].forEach((element) => document.body.removeChild(element));
+                });
+                document.body.querySelector('.cancel').addEventListener('click', () => {
+                  document.body.removeChild(document.querySelectorAll('.overlay')[1]);
+                });
+              }
+          });
+
+          tdAction.append(seedButton);
+          tr.append(tdYear, tdMonth, tdProject, tdEmployee, tdTotal, tdAction);
+          seedTable.append(tr);
+        }
       }
     }
   }

@@ -1,6 +1,24 @@
 import { createMyElement, noData, createConfirm } from "../common/functions";
 import { getContent } from "./content";
 
+function getAge(date) {
+  const currentYear = new Date().getFullYear();
+  const currentMonth = new Date().getMonth();
+  const currentDay = new Date().getDate();
+  const [year, month, day] = date.split('-').map((n) => Number(n));
+
+  let age = currentYear - year;
+  if (currentMonth < month - 1) {
+    age -= 1;
+  } else if (currentMonth === month - 1) {
+    if (currentDay < day) {
+      age -= 1;
+    }
+  }
+
+  return age;
+}
+
 export function employeeTable(year, month) {
   const table = createMyElement('table', 'table');
   const tr = createMyElement('tr');
@@ -34,6 +52,7 @@ export function employeeTable(year, month) {
             assignments
           } = monthlyData[`${year}-${month}`].employees[key];
 
+          const age = getAge(dob);
           const capacityEmployeeSum = 1.5;
           const capacity = assignments.length === 0 ? 0.5 : capacityEmployeeSum;
           const payment = salary * capacity;
@@ -44,7 +63,7 @@ export function employeeTable(year, month) {
           const tr = createMyElement('tr');
           const tdName = createMyElement('td', '', name);
           const tdSurname = createMyElement('td', '', surname);
-          const tdAge = createMyElement('td', '', dob);
+          const tdAge = createMyElement('td', '', age);
           const tdPosition = createMyElement('td', '', position);
           const tdSalary = createMyElement('td', '', `$${salary}`);
           const tdPayment = createMyElement('td', '', `$${payment}`);
@@ -65,7 +84,7 @@ export function employeeTable(year, month) {
 
           deleteEmployee.setAttribute('data-id', id);
           deleteEmployee.addEventListener('click', (e) => {
-            document.body.append(createConfirm('employee'));
+            document.body.append(createConfirm(`Are you sure you want to delete ${name} ${surname} employee?`));
             if (document.body.querySelector('.confirm')) {
               document.body.querySelector('.confirm').addEventListener('click', () => {
                 const employeeId = e.target.getAttribute('data-id');

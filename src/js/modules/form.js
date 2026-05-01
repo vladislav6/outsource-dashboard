@@ -16,6 +16,8 @@ function isValid() {
 
 function closeAside(aside, form) {
   aside.classList.remove('show');
+  getValues(form).button.disabled = true;
+  getValues(form).button.classList.add('disable');
   getValues(form).inputs.map((input) => {
     input.value = '';
     input.classList.remove('valid');

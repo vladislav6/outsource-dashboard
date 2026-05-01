@@ -47,7 +47,7 @@ export function projectTable(year, month) {
           deleteProject.setAttribute('data-id', id);
 
           deleteProject.addEventListener('click', (e) => {
-            document.body.append(createConfirm('project'));
+            document.body.append(createConfirm(`Are you sure you want to delete ${project} project?`));
             if (document.body.querySelector('.confirm')) {
               document.body.querySelector('.confirm').addEventListener('click', () => {
                 const projectId = e.target.getAttribute('data-id');

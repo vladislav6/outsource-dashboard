@@ -61,7 +61,7 @@ export function noData(spans) {
   return tr;
 }
 
-export function createConfirm(item) {
+export function createConfirm(text) {
   const yes = createMyElement('button', 'btn confirm', 'Yes');
   const no = createMyElement('button', 'btn cancel', 'No');
   const content = createMyElement('div', 'confirm-content');
@@ -69,7 +69,7 @@ export function createConfirm(item) {
 
   const aboutModal = {
     title: 'Confirm',
-    text: `Delete ${item}?`,
+    text: text,
     content: content,
     item: 'confirm-modal'
   }
