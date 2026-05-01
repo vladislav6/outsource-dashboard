@@ -1,5 +1,5 @@
 import { links, formProject, formEmployee } from '../common/lists';
-import { getCurrentPeriod, clearDOM, createMyElement, createModal } from '../common/functions';
+import { getCurrentPeriod, clearDOM, createMyElement, createModal, noData } from '../common/functions';
 import { createForm } from './form';
 
 const asidePanel = document.querySelector('.aside-right');
@@ -22,6 +22,7 @@ function addButtons(button) {
 export function makeSeedData(period) {
   const seedTable = createMyElement('table', 'table');
   const tr = createMyElement('tr');
+  const trNoData = noData(6);
 
   const thYear = createMyElement('th', '', 'Year');
   const thMonth  = createMyElement('th', '', 'Month');
@@ -30,8 +31,20 @@ export function makeSeedData(period) {
   const thTotalEstIncome  = createMyElement('th', '', 'Total Est. Income');
   const thAction  = createMyElement('th', '', 'Action');
 
-  tr.append(thYear, thMonth, thProjects, thEmployees, thTotalEstIncome, thAction)
-  seedTable.append(tr);
+  tr.append(thYear, thMonth, thProjects, thEmployees, thTotalEstIncome, thAction);
+  seedTable.append(tr, trNoData);
+
+  if (localStorage.getItem('monthlyData')) {
+    const monthlyData = JSON.parse(localStorage.getItem('monthlyData'));
+    for (let key in monthlyData) {
+      if (
+        monthlyData[key].projects.length !== 0 ||
+        monthlyData[key].employees.length !== 0
+      ) {
+        seedTable.removeChild(trNoData);
+      }
+    }
+  }
 
   const seedDataContent = {
     title: 'Seed Data from Month',

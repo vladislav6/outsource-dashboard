@@ -52,3 +52,11 @@ export function createModal(aboutModal) {
   
   return overlay;
 }
+
+export function noData(spans) {
+  const tr = createMyElement('tr');
+  const td = createMyElement('td', 'no-data', 'No data.');
+  td.colSpan = spans;
+  tr.append(td);
+  return tr;
+}

@@ -7,9 +7,8 @@
   transition: width .4s ease;
 
   .table {
-
-    th {
-      min-width: 150px;
+    .actions {
+      min-width: 300px;
     }
 
     .sortable {
@@ -19,6 +18,61 @@
     .sortable:hover {
       background-color: v.$dark-hover;
     }
+
+    td {
+      padding: 20px;
+      text-align: center;
+    }
+
+    td:nth-child(1),
+    td:nth-child(2) {
+      font-weight: bold;
+      text-align: left;
+    }
+
+    td:nth-child(1).no-data {
+      text-align: center;
+    }
+
+    tr:nth-child(even) {
+      background-color: v.$content-background;
+      border-top: 1px solid v.$content-border;
+      border-bottom: 1px solid v.$content-border;
+    }
+
+    tr:hover {
+      background-color: v.$content-background-hover;
+    }
+
+    .btn {
+      padding: 5px 10px;
+      margin: 0 5px;
+      color: v.$static-white;
+    }
+
+    .delete {
+      background-color: v.$red;
+    }
+
+    .delete:hover {
+      background-color: v.$red-hover;
+    }
+
+    .availability {
+      background-color: v.$availability;
+    }
+
+    .availability:hover {
+      background-color: v.$availability-hover;
+    }
+
+    .assign {
+      background-color: v.$assign;
+    }
+
+    .assign:hover {
+      background-color: v.$assign-hover;
+    }
   }
 
   .total-income {
@@ -27,9 +81,16 @@
     font-weight: bold;
 
     .total {
-      color: v.$green;
       font-size: large;
     }
+  }
+
+  .profit {
+    color: v.$green;
+  }
+
+  .loss {
+    color: v.$red;
   }
 }
 
@@ -41,9 +102,13 @@
   .main {
     width: 100vw;
 
-    table {
+    .table {
       border-collapse: collapse;
       min-width: 700px;
+
+      td {
+        padding: 5px;
+      }
     }
   }
 }

@@ -25,7 +25,7 @@ body {
 
   th {
     width: 150px;
-    padding: 20px 0;
+    padding: 20px 10px;
     background-color: v.$dark;
     color: v.$static-white;
   }
@@ -46,7 +46,7 @@ body {
   
   .table {
     th {
-      padding: 10px 0;
+      padding: 10px;
     }
   }
 }

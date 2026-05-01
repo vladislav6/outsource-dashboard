@@ -1,4 +1,5 @@
 import { createMyElement, clearDOM, getCurrentPeriod } from "../common/functions";
+import { getContent } from "./content";
 
 function isValid() {
   const [addButton, ...other] = arguments;
@@ -117,10 +118,12 @@ function validateProjectForm(form) {
     employeeCapacityTitle
     ]  = form.allTitle;
 
-  const isValidProjectName = projectNameValue.length < 3 ?
+  const isValidProjectName =
+    projectNameValue.length < 3 || !projectName.checkValidity() ? 
     setInvalid(projectName, projectNameTitle) : setValid(projectName);
 
-  const isValidCompanyName = companyNameValue.length < 2 ?
+  const isValidCompanyName =
+    companyNameValue.length < 2 || !companyName.checkValidity() ?
     setInvalid(companyName, companyNameTitle) : setValid(companyName);
 
   const isValidBudget = budgetValue <= 0 &&
@@ -166,10 +169,12 @@ function validateEmployeeForm(form) {
     positionTitle
   ] = form.allTitle;
 
-  const isValidEmployeeName = employeeNameValue.length < 3 ?
+  const isValidEmployeeName =
+    employeeNameValue.length < 3 || !employeeName.checkValidity() ?
     setInvalid(employeeName, employeeNameTitle) : setValid(employeeName);
 
-  const isValidEmployeeSurname = employeeSurnameValue.length < 3 ?
+  const isValidEmployeeSurname =
+    employeeSurnameValue.length < 3 || !employeeSurname.checkValidity() ?
     setInvalid(employeeSurname, employeeSurnameTitle) : setValid(employeeSurname);
 
   const isValidBirthday = !birthdayValid(birthdayValue) ?
@@ -312,7 +317,6 @@ export function createForm(aboutForm, classForm, asidePanelElement) {
         const dataEmployee = {}
         if (localStorage.getItem('monthlyData')) {
           const monthlyData = JSON.parse(localStorage.getItem('monthlyData'));
-          console.log(monthlyData);
           if (valuesFromForm === 'project-form') {
             const [
               project,
@@ -329,6 +333,7 @@ export function createForm(aboutForm, classForm, asidePanelElement) {
             if (monthlyData.hasOwnProperty(`${year}-${month}`)) {
               monthlyData[`${year}-${month}`].projects.push(dataProject);
               localStorage.setItem('monthlyData', JSON.stringify(monthlyData));
+              getContent(0);
             }
           } else {
             const [
@@ -350,9 +355,9 @@ export function createForm(aboutForm, classForm, asidePanelElement) {
 
             monthlyData[`${year}-${month}`].employees.push(dataEmployee);
             localStorage.setItem('monthlyData', JSON.stringify(monthlyData));
+            getContent(1);
           }
           closeAside(asidePanelElement, form);
-          console.log(monthlyData);
         }
       });
     }
