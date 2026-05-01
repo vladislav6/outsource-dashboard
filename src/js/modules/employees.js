@@ -1,4 +1,5 @@
-import { createMyElement, noData } from "../common/functions";
+import { createMyElement, noData, createConfirm } from "../common/functions";
+import { getContent } from "./content";
 
 export function employeeTable(year, month) {
   const table = createMyElement('table', 'table');
@@ -12,7 +13,7 @@ export function employeeTable(year, month) {
   const thEstimatedPayment = createMyElement('th', 'sortable', 'Estimated Payment');
   const thProject = createMyElement('th', 'sortable filterable', 'Project');
   const thProjectedIncome = createMyElement('th', 'sortable', 'Projected Income');
-  const thActions = createMyElement('th', 'actions', 'Actions');
+  const thActions = createMyElement('th', '', 'Actions');
 
   tr.append(thName, thSurname, thAge, thPosition, thSalary, thEstimatedPayment, thProject, thProjectedIncome, thActions);
 
@@ -57,10 +58,31 @@ export function employeeTable(year, month) {
             ) : '-';
 
           const tdIncome = createMyElement('td', `${incomeClass}`, `$${projectedIncome.toFixed(2)}`);
-          const tdActions = createMyElement('td');
+          const tdActions = createMyElement('td', 'actions');
           const availability = createMyElement('button', 'btn availability', 'Availability');
           const assign = createMyElement('button', 'btn assign', 'Assign');
           const deleteEmployee = createMyElement('button', 'btn delete', 'Delete');
+
+          deleteEmployee.setAttribute('data-id', id);
+          deleteEmployee.addEventListener('click', (e) => {
+            document.body.append(createConfirm('employee'));
+            if (document.body.querySelector('.confirm')) {
+              document.body.querySelector('.confirm').addEventListener('click', () => {
+                const employeeId = e.target.getAttribute('data-id');
+                if (monthlyData[`${year}-${month}`].employees[key].id === employeeId) {
+                  monthlyData[`${year}-${month}`].employees[key] = '';
+                  monthlyData[`${year}-${month}`].employees =
+                    monthlyData[`${year}-${month}`].employees.filter((employee) => employee !== '');
+                  localStorage.setItem('monthlyData', JSON.stringify(monthlyData));
+                  getContent(1);
+                  document.body.removeChild(document.querySelector('.overlay'));
+                }
+              });
+              document.body.querySelector('.cancel').addEventListener('click', () => {
+                document.body.removeChild(document.querySelector('.overlay'));
+              });
+            }
+          });
 
           tdAssignments.append(showAssignments);
           tdActions.append(availability, assign, deleteEmployee);

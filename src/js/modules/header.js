@@ -49,7 +49,8 @@ export function makeSeedData(period) {
   const seedDataContent = {
     title: 'Seed Data from Month',
     content: seedTable,
-    text: `Select a month to copy its data to the current month (${period.period}):`
+    text: `Select a month to copy its data to the current month (${period.period}):`,
+    item: 'seed-data'
   };
   const modal = createModal(seedDataContent);
 

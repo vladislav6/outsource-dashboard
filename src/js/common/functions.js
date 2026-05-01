@@ -31,7 +31,7 @@ export function createMyElement(element, classElement = '', textElement = '') {
 
 export function createModal(aboutModal) {
   const overlay = createMyElement('div', 'overlay');
-  const modal = createMyElement('div', 'modal');
+  const modal = createMyElement('div', `modal ${aboutModal.item}`);
   const modalTitle = createMyElement('h2', 'modal-title', aboutModal.title);
   const modalClose = createMyElement('button', 'btn modal-close', 'X');
   const modalContent = createMyElement('div', 'modal-content');
@@ -59,4 +59,20 @@ export function noData(spans) {
   td.colSpan = spans;
   tr.append(td);
   return tr;
+}
+
+export function createConfirm(item) {
+  const yes = createMyElement('button', 'btn confirm', 'Yes');
+  const no = createMyElement('button', 'btn cancel', 'No');
+  const content = createMyElement('div', 'confirm-content');
+  content.append(yes, no);
+
+  const aboutModal = {
+    title: 'Confirm',
+    text: `Delete ${item}?`,
+    content: content,
+    item: 'confirm-modal'
+  }
+
+  return createModal(aboutModal);
 }

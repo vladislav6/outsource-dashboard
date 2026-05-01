@@ -3,7 +3,7 @@ import { employeeTable } from "./employees";
 import { links } from "../common/lists";
 import { clearDOM, createMyElement, getCurrentPeriod } from "../common/functions";
 
-function setDataToLocalStorage() {
+export function setDataToLocalStorage() {
   if (localStorage.getItem('monthlyData')) {
     const monthlyData = JSON.parse(localStorage.getItem('monthlyData'));
     const month = getCurrentPeriod().month;
@@ -12,7 +12,7 @@ function setDataToLocalStorage() {
       if (
         monthlyData[key].projects.length === 0 &&
         monthlyData[key].employees.length === 0
-        ) {
+      ) {
         delete monthlyData[key];
       }
     }

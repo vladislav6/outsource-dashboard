@@ -1,4 +1,5 @@
-import { createMyElement, noData } from "../common/functions";
+import { createMyElement, noData, createConfirm } from "../common/functions";
+import { getContent, setDataToLocalStorage } from './content';
 
 export function projectTable(year, month) {
   const table = createMyElement('table', 'table');
@@ -42,6 +43,28 @@ export function projectTable(year, month) {
           const tdIncome = createMyElement('td', `income ${incomeClass}`, `$${currentIncome.toFixed(2)}`);
           const tdActions = createMyElement('td');
           const deleteProject = createMyElement('button', 'btn delete', 'Delete');
+
+          deleteProject.setAttribute('data-id', id);
+
+          deleteProject.addEventListener('click', (e) => {
+            document.body.append(createConfirm('project'));
+            if (document.body.querySelector('.confirm')) {
+              document.body.querySelector('.confirm').addEventListener('click', () => {
+                const projectId = e.target.getAttribute('data-id');
+                if (monthlyData[`${year}-${month}`].projects[key].id === projectId) {
+                  monthlyData[`${year}-${month}`].projects[key] = '';
+                  monthlyData[`${year}-${month}`].projects =
+                    monthlyData[`${year}-${month}`].projects.filter((project) => project !== '');
+                  localStorage.setItem('monthlyData', JSON.stringify(monthlyData));
+                  getContent(0);
+                  document.body.removeChild(document.querySelector('.overlay'));
+                }
+              });
+              document.body.querySelector('.cancel').addEventListener('click', () => {
+                document.body.removeChild(document.querySelector('.overlay'));
+              });
+            }
+          });
 
           tdActions.append(deleteProject);
           tr.append(tdCompany, tdProject, tdBudget, tdCapacity, tdEmployees, tdIncome, tdActions);
