@@ -3,8 +3,10 @@
 @use '../../common/extends';
 
 .overlay {
-  position: absolute;
+  position: fixed;
   inset: 0;
+  height: 100vh;
+  z-index: 4;
   background-color: v.$overlay;
   @include m.flex-settings (row, no-wrap, 0, center, center);
   cursor: pointer;
@@ -14,6 +16,7 @@
     width: 100%;
     max-width: 80vw;
     min-width: 310px;
+    max-height: 90vh;
     box-shadow: rgba(0, 0, 0, 0.3) 0px 4px 20px;
     @extend %radius5px;
     position: relative;
@@ -88,6 +91,12 @@
   }
 
   .seed-data {
+
+    .modal-content {
+      overflow-y: scroll;
+      height: 80vh;
+    }
+
     .table {
       td {
         padding: 20px;
@@ -151,6 +160,14 @@
           margin-bottom: 50px;
         }
       }
+    }
+
+    .confirm-modal {
+      height: auto;
+
+       .modal-content {
+        height: auto;
+       }
     }
   }
 }

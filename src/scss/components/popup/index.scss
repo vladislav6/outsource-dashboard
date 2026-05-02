@@ -1,0 +1,112 @@
+@use '../../common/variables' as v;
+@use '../../common/mixins' as m;
+@use '../../common/extends';
+
+.popup {
+  position: fixed;
+  right: 20px;
+  width: 100%;
+  min-width: 280px;
+  max-width: 350px;
+  background-color: v.$static-white;
+  border: 1px solid v.$silver;
+  @extend %radius5px;
+  @extend %shadow;
+  padding: 20px;
+}
+
+.popup-text-block,
+.validate-range-capacite {
+  border-left: 3px solid v.$dark;
+  border-right: 3px solid v.$dark;
+  padding: 3px 10px;
+  @extend %radius5px;
+  @extend %shadow;
+
+  .popup-subtext {
+    display: block;
+  }
+}
+
+.validate-range-capacite {
+  background-color: v.$red-hover;
+  color: v.$static-white;
+  font-weight: bold;
+}
+
+.assign-popup-content {
+  .assign-label {
+    display: block;
+  }
+
+  .assign-select {
+    width: 100%;
+    margin: 5px 0;
+    background-color: v.$dark-select;
+    @extend %radius5px;
+    padding: 10px;
+    color: v.$static-white;
+  }
+
+  .label {
+    display: block;
+    width: 100%;
+    margin: 15px 0;
+    
+    .range {
+      width: 100%;
+    }
+
+    .value {
+      font-weight: bold;
+    }
+
+    .hint {
+      font-size: small;
+      color: v.$silver;
+    }
+  }
+
+  .project-info {
+    background-color: v.$content-background;
+    @extend %radius5px;
+    @extend %shadow;
+    padding: 5px;
+
+    .info-row {
+      padding: 3px 0;
+      @include m.flex-settings (row, no-wrap, 0, space-between, stretch);
+
+      .info-value {
+        font-weight: bold;
+      }
+    }
+  }
+
+  .assign-btn-block {
+    @include m.flex-settings (row, no-wrap, 20px, end, center);
+    margin-top: 20px;
+
+    .btn {
+      padding: 10px 20px;
+    }
+
+    .assign-cnl {
+      background-color: v.$red;
+      color: v.$static-white;
+    }
+
+    .assign-cnl:hover {
+      background-color: v.$red-hover;
+    }
+  }
+}
+
+.assign-btn {
+  background-color: v.$assign;
+  color: v.$static-white;
+}
+
+.assign-btn:hover {
+  background-color: v.$assign-hover;
+}

@@ -49,26 +49,6 @@
   .btn {
     padding: 10px 15px;
   }
-  
-  .addButton {
-    background-color: v.$green;
-    color: v.$static-white;
-  }
-
-  .addButton:hover {
-    background-color: v.$green-hover;
-  }
-
-  .disable {
-    cursor: default;
-    background-color: v.$content-background;
-    color: v.$silver;
-  }
-
-  .disable:hover {
-    background-color: v.$content-background;
-    color: v.$silver;
-  }
 
   .btn:last-of-type {
     background-color: v.$red;
@@ -92,6 +72,15 @@
     font-size: smaller;
   }
 
+}
+
+.addButton {
+  background-color: v.$green;
+  color: v.$static-white;
+}
+
+.addButton:hover {
+  background-color: v.$green-hover;
 }
 
 @media (max-width: 350px) {

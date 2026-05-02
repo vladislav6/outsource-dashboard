@@ -36,13 +36,14 @@ function getValues(form) {
   ];
   const addButton = form.querySelector('.addButton');
   const assignments = [];
+  const vacationDays = [];
   const id = Array
     .from({ length: 6 }, () => Math.floor(Math.random() * 10))
     .join('');
 
   const allValuesInput = getAllInput.map((input) => input.value.trim());
   const allValue = form.getElementsByTagName('select').length !== 0 ?
-    [...allValuesInput, id, assignments] : [...allValuesInput, id];
+    [...allValuesInput, id, assignments, vacationDays] : [...allValuesInput, id];
   const allTitle = getAllInput.map((input) => input.title);
   const inputs = getAllInput.map((input) => input);
 
@@ -345,7 +346,8 @@ export function createForm(aboutForm, classForm, asidePanelElement) {
               salary,
               position,
               id,
-              assignments
+              assignments,
+              vacationDays
             ] = allValues;
             dataEmployee.id = id;
             dataEmployee.name = name;
@@ -354,10 +356,12 @@ export function createForm(aboutForm, classForm, asidePanelElement) {
             dataEmployee.salary = salary;
             dataEmployee.position = position;
             dataEmployee.assignments = assignments;
-
-            monthlyData[`${year}-${month}`].employees.push(dataEmployee);
-            localStorage.setItem('monthlyData', JSON.stringify(monthlyData));
-            getContent(1);
+            dataEmployee.vacationDays = vacationDays;
+            if (monthlyData.hasOwnProperty(`${year}-${month}`)) {
+              monthlyData[`${year}-${month}`].employees.push(dataEmployee);
+              localStorage.setItem('monthlyData', JSON.stringify(monthlyData));
+              getContent(1);
+            }
           }
           closeAside(asidePanelElement, form);
         }

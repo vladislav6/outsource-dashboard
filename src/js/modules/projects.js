@@ -20,6 +20,12 @@ export function projectTable(year, month) {
   if (localStorage.getItem('monthlyData')) {
     const monthlyData = JSON.parse(localStorage.getItem('monthlyData'));
     if (monthlyData.hasOwnProperty(`${year}-${month}`)) {
+
+      const counts = {};
+      const employees = monthlyData[`${year}-${month}`].employees.filter((employee) => employee.assignments.length !== 0);
+      const assignments = employees.flatMap((employee) => employee.assignments);
+      assignments.forEach(assign => assign ? counts[assign.projectId] = (counts[assign.projectId] || 0) + 1 : '');
+
       if (monthlyData[`${year}-${month}`].projects.length !== 0) {
         for (let key in monthlyData[`${year}-${month}`].projects) {
           const {
@@ -39,10 +45,21 @@ export function projectTable(year, month) {
           const tdProject = createMyElement('td', '', project);
           const tdBudget = createMyElement('td', '', `$${Number(budget).toFixed(2)}`);
           const tdCapacity = createMyElement('td', '', `${currentCapacity.toFixed(1)}/${capacity}`);
-          const tdEmployees = createMyElement('td', '', '-');
+          const tdEmployees = createMyElement('td');
           const tdIncome = createMyElement('td', `income ${incomeClass}`, `$${currentIncome.toFixed(2)}`);
           const tdActions = createMyElement('td');
           const deleteProject = createMyElement('button', 'btn delete', 'Delete');
+
+          if (counts[id]) {
+            const employeeBtn = createMyElement(
+              'button',
+              'btn assignments',
+              `Employees (${counts[id]})`
+            );
+            tdEmployees.append(employeeBtn);
+          } else {
+            tdEmployees.append('-');
+          }
 
           deleteProject.setAttribute('data-id', id);
 
@@ -55,6 +72,16 @@ export function projectTable(year, month) {
                   monthlyData[`${year}-${month}`].projects[key] = '';
                   monthlyData[`${year}-${month}`].projects =
                     monthlyData[`${year}-${month}`].projects.filter((project) => project !== '');
+
+                  employees.forEach((employee, index) => {
+                    employee.assignments.forEach((assign, ind) => {
+                      if (assign && Object.values(assign).includes(projectId)) {
+                        delete employee.assignments[ind];
+                        employees[index].assignments = employee.assignments.filter((assign) => assign.projectId !== projectId);
+                      }
+                    });
+                  });
+
                   localStorage.setItem('monthlyData', JSON.stringify(monthlyData));
                   getContent(0);
                   document.body.removeChild(document.querySelector('.overlay'));

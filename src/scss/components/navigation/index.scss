@@ -5,6 +5,11 @@
 .navigation {
   width: 320px;
   overflow: hidden;
+  position: sticky;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 3;
   height: 100vh;
   background-color: v.$dark;
   color: v.$static-white;
@@ -106,7 +111,7 @@
 
 @media (max-width: 810px) {
   .navigation {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     bottom: 0;

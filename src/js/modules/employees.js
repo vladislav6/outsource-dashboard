@@ -1,5 +1,6 @@
 import { createMyElement, noData, createConfirm } from "../common/functions";
 import { getContent } from "./content";
+import { makeAssign } from "./assignments";
 
 function getAge(date) {
   const currentYear = new Date().getFullYear();
@@ -53,8 +54,9 @@ export function employeeTable(year, month) {
           } = monthlyData[`${year}-${month}`].employees[key];
 
           const age = getAge(dob);
-          const capacityEmployeeSum = 1.5;
-          const capacity = assignments.length === 0 ? 0.5 : capacityEmployeeSum;
+          const currentCapacityEmployee = 0.0;
+          const maxCapacity = 1.5;
+          const capacity = Math.max(0.5, currentCapacityEmployee);
           const payment = salary * capacity;
           const assignmentCount = assignments.length;
           const projectedIncome = 0;
@@ -69,17 +71,33 @@ export function employeeTable(year, month) {
           const tdPayment = createMyElement('td', '', `$${payment}`);
           const tdAssignments = createMyElement('td');
 
-          const showAssignments = assignmentCount > 0 ?
-            createMyElement(
-              'button',
-              'btn assignments',
-              `Show Assignments ${assignmentCount} ${capacityEmployeeSum}/1.5`
-            ) : '-';
+          let showAssignments = '-';
+          if (assignmentCount > 0 ) {
+            showAssignments = createMyElement('button', 'btn assignments', 'Show');
+
+            const assignmentDetails = `Assignments ${assignmentCount} and employee capacity ${currentCapacityEmployee} / ${maxCapacity}`;
+
+            showAssignments.addEventListener('mouseover', (e) => {
+              const rect = e.target.getBoundingClientRect();
+              const tooltip = createMyElement('div', 'tooltip', assignmentDetails);
+              document.body.append(tooltip);
+              tooltip.style.position = 'absolute';
+              tooltip.style.top = `${rect.top + rect.height + 10}px`;
+              tooltip.style.left = `${rect.left - (tooltip.offsetWidth / 2) + (rect.width / 2)}px`;
+            });
+            showAssignments.addEventListener('mouseout', (e) => {
+              document.body.removeChild(document.querySelector('.tooltip'));
+            });
+          }
 
           const tdIncome = createMyElement('td', `${incomeClass}`, `$${projectedIncome.toFixed(2)}`);
           const tdActions = createMyElement('td', 'actions');
           const availability = createMyElement('button', 'btn availability', 'Availability');
-          const assign = createMyElement('button', 'btn assign', 'Assign');
+          const assign = createMyElement('button', `btn assign`, 'Assign');
+          if (currentCapacityEmployee === maxCapacity) {
+            assign.disabled = true;
+            assign.classList.add('disable');
+          }
           const deleteEmployee = createMyElement('button', 'btn delete', 'Delete');
 
           deleteEmployee.setAttribute('data-id', id);
@@ -103,11 +121,42 @@ export function employeeTable(year, month) {
             }
           });
 
+          const aboutPopup = {
+            fullName: `${name} ${surname}`,
+            currentCapacityEmployee,
+            maxCapacity,
+            projects: monthlyData[`${year}-${month}`].projects,
+            monthlyData,
+            year,
+            month,
+            key
+          };
+
+          assign.addEventListener('click', () => {
+            if (document.querySelector('.popup')) {
+              document.body.removeChild(document.querySelector('.popup'));
+              makeAssign(assign.getBoundingClientRect(), aboutPopup);
+            } else {
+              makeAssign(assign.getBoundingClientRect(), aboutPopup);
+            }
+          });
+          
           tdAssignments.append(showAssignments);
           tdActions.append(availability, assign, deleteEmployee);
           tr.append(tdName, tdSurname, tdAge, tdPosition, tdSalary, tdPayment, tdAssignments, tdIncome, tdActions);
           table.append(tr);
         }
+
+        document.addEventListener('click', (e) => {
+          if (
+            document.querySelector('.popup') &&
+            !document.querySelector('.popup').contains(e.target) &&
+            !e.target.classList.contains('assign')
+          ) {
+            document.body.removeChild(document.querySelector('.popup'));
+          } 
+        });
+        
       } else {
         const trNoData = noData(9);
         table.append(trNoData);

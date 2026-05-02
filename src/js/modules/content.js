@@ -29,7 +29,7 @@ export function setDataToLocalStorage() {
 document.querySelector('.months').addEventListener('change', setDataToLocalStorage);
 document.querySelector('.years').addEventListener('change', setDataToLocalStorage);
 
-window.addEventListener('unload', () => {
+window.addEventListener('pagehide', () => {
   const monthlyData = JSON.parse(localStorage.getItem('monthlyData'));
   for (let key in monthlyData) {
     if (

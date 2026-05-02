@@ -16,6 +16,17 @@ body {
   @extend %shadow;
 }
 
+.btn.disable {
+  cursor: default;
+  background-color: v.$content-background;
+  color: v.$silver;
+}
+
+.btn.disable:hover {
+  background-color: v.$content-background;
+  color: v.$silver;
+}
+
 .table {
   border-collapse: collapse;
   width: 100%;
@@ -37,6 +48,15 @@ body {
     th:last-of-type {
     border-radius: 0 10px 0 0;
   }
+}
+
+.tooltip {
+  width: 200px;
+  padding: 10px;
+  @extend %shadow;
+  @extend %radius5px;
+  background-color: v.$static-white;
+  font-size: small;
 }
 
 @media (max-width: 810px) {

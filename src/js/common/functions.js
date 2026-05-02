@@ -76,3 +76,17 @@ export function createConfirm(text) {
 
   return createModal(aboutModal);
 }
+
+export function createPopup(aboutPopup) {
+  const popup = createMyElement('div', 'popup');
+  const title = createMyElement('h3', 'popup-title', aboutPopup.title);
+  const text = createMyElement('p', 'popup-text-block', aboutPopup.text);
+  if (aboutPopup.subtext) {
+    const subtext = createMyElement('span', 'popup-subtext', aboutPopup.subtext);
+    text.append(subtext);
+  }
+  
+  popup.append(title, text, aboutPopup.content);
+
+  return popup;
+}

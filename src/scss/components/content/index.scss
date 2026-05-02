@@ -47,11 +47,11 @@
 
     .btn {
       padding: 5px 10px;
-      color: v.$static-white;
     }
 
     .delete {
       background-color: v.$red;
+      color: v.$static-white;
     }
 
     .delete:hover {
@@ -60,17 +60,19 @@
 
     .availability {
       background-color: v.$availability;
+      color: v.$static-white;
     }
 
     .availability:hover {
       background-color: v.$availability-hover;
     }
 
-    .assign {
+    .assignments {
+      color: v.$static-white;
       background-color: v.$assign;
     }
-
-    .assign:hover {
+    
+    .assignments:hover {
       background-color: v.$assign-hover;
     }
   }
@@ -92,6 +94,15 @@
   .loss {
     color: v.$red;
   }
+}
+
+.assign {
+  background-color: v.$assign;
+  color: v.$static-white;
+}
+
+.assign:hover {
+  background-color: v.$assign-hover;
 }
 
 .main-full-width {
