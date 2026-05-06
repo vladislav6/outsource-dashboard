@@ -1,6 +1,7 @@
 import { createMyElement, noData, createConfirm } from "../common/functions";
 import { getContent } from "./content";
 import { makeAssign } from "./assignments";
+import { getDetailsTable } from "./details";
 
 function getAge(date) {
   const currentYear = new Date().getFullYear();
@@ -35,7 +36,6 @@ export function employeeTable(year, month) {
   const thActions = createMyElement('th', '', 'Actions');
 
   tr.append(thName, thSurname, thAge, thPosition, thSalary, thEstimatedPayment, thProject, thProjectedIncome, thActions);
-
   table.append(tr);
 
   if (localStorage.getItem('monthlyData')) {
@@ -76,6 +76,15 @@ export function employeeTable(year, month) {
             showAssignments = createMyElement('button', 'btn assignments', 'Show');
 
             const assignmentDetails = `Assignments ${assignmentCount} and employee capacity ${currentCapacityEmployee} / ${maxCapacity}`;
+
+            showAssignments.addEventListener('click', () => {
+              getDetailsTable({
+                modalTitle: 'Assignments for',
+                thTitle: 'Project',
+                name: `${name} ${surname}`,
+                item: 'employee-assignments'
+              });
+            });
 
             showAssignments.addEventListener('mouseover', (e) => {
               const rect = e.target.getBoundingClientRect();

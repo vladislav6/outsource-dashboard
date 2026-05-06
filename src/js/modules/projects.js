@@ -1,5 +1,6 @@
 import { createMyElement, noData, createConfirm } from "../common/functions";
 import { getContent, setDataToLocalStorage } from './content';
+import { getDetailsTable } from "./details";
 
 export function projectTable(year, month) {
   const table = createMyElement('table', 'table');
@@ -56,6 +57,16 @@ export function projectTable(year, month) {
               'btn assignments',
               `Employees (${counts[id]})`
             );
+
+            employeeBtn.addEventListener('click', () => {
+              getDetailsTable({
+                modalTitle: 'Employees on',
+                thTitle: 'Employee',
+                name: `${project}`,
+                item: 'project-employees'
+              });
+            });
+
             tdEmployees.append(employeeBtn);
           } else {
             tdEmployees.append('-');
