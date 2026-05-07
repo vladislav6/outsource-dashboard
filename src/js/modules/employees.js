@@ -1,4 +1,4 @@
-import { createMyElement, noData, createConfirm } from "../common/functions";
+import { createMyElement, noData, createConfirm, getNumber } from "../common/functions";
 import { getContent } from "./content";
 import { makeAssign } from "./assignments";
 import { getDetailsTable } from "./details";
@@ -50,16 +50,35 @@ export function employeeTable(year, month) {
             dob,
             position,
             salary,
-            assignments
+            assignments,
+            vacationDays
           } = monthlyData[`${year}-${month}`].employees[key];
 
           const age = getAge(dob);
-          const currentCapacityEmployee = 0.0;
+          const currentCapacityEmployee = assignments.length !== 0 ?
+            getNumber(assignments.reduce((acc, assignEmpl) => acc += getNumber(assignEmpl.capacity), 0)) : 0.0;
           const maxCapacity = 1.5;
           const capacity = Math.max(0.5, currentCapacityEmployee);
-          const payment = salary * capacity;
+          const payment = getNumber(salary * capacity);
           const assignmentCount = assignments.length;
-          const projectedIncome = 0;
+
+          function getDetailsBtnHandler() {
+            return getDetailsTable({
+              modalTitle: 'Assignments for',
+              thTitle: 'Project',
+              name: `${name} ${surname}`,
+              item: 'employee-assignments',
+              salary,
+              assign: assignments,
+              vacation: vacationDays,
+              projects: monthlyData[`${year}-${month}`].projects,
+              employees: monthlyData[`${year}-${month}`].employees
+            });
+          }
+
+          let projectedIncome = 0;
+          projectedIncome = projectedIncome + getDetailsBtnHandler().profit;
+          document.body.removeChild(document.querySelector('.overlay'));
           const incomeClass = projectedIncome >= 0 ? 'profit' : 'loss';
 
           const tr = createMyElement('tr');
@@ -77,14 +96,7 @@ export function employeeTable(year, month) {
 
             const assignmentDetails = `Assignments ${assignmentCount} and employee capacity ${currentCapacityEmployee} / ${maxCapacity}`;
 
-            showAssignments.addEventListener('click', () => {
-              getDetailsTable({
-                modalTitle: 'Assignments for',
-                thTitle: 'Project',
-                name: `${name} ${surname}`,
-                item: 'employee-assignments'
-              });
-            });
+            showAssignments.addEventListener('click', getDetailsBtnHandler);
 
             showAssignments.addEventListener('mouseover', (e) => {
               const rect = e.target.getBoundingClientRect();
@@ -135,6 +147,7 @@ export function employeeTable(year, month) {
             currentCapacityEmployee,
             maxCapacity,
             projects: monthlyData[`${year}-${month}`].projects,
+            employees: monthlyData[`${year}-${month}`].employees,
             monthlyData,
             year,
             month,

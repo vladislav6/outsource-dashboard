@@ -48,6 +48,40 @@ body {
     th:last-of-type {
     border-radius: 0 10px 0 0;
   }
+
+  td {
+    padding: 20px;
+    text-align: center;
+  }
+
+  td:nth-child(1),
+  td:nth-child(2) {
+    font-weight: bold;
+    text-align: left;
+  }
+
+  tr:nth-child(even) {
+    background-color: v.$content-background;
+    border-top: 1px solid v.$content-border;
+    border-bottom: 1px solid v.$content-border;
+  }
+
+  tr:hover {
+    background-color: v.$content-background-hover;
+  }
+
+  .no-data {
+    text-align: center;
+    padding: 20px;
+  }
+}
+
+.profit {
+  color: v.$green;
+}
+
+.loss {
+  color: v.$red;
 }
 
 .tooltip {

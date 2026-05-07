@@ -1,5 +1,7 @@
 import { months } from './lists';
 
+export const getNumber = (n) => +Number(n).toFixed(2);
+
 export function getCurrentPeriod () {
   const month = document.querySelector('.months').value;
   const year = document.querySelector('.years').value;
@@ -53,9 +55,9 @@ export function createModal(aboutModal) {
   return overlay;
 }
 
-export function noData(spans) {
+export function noData(spans, msg = '') {
   const tr = createMyElement('tr');
-  const td = createMyElement('td', 'no-data', 'No data.');
+  const td = createMyElement('td', 'no-data', msg !== '' ? msg : 'No data.');
   td.colSpan = spans;
   tr.append(td);
   return tr;
@@ -89,4 +91,13 @@ export function createPopup(aboutPopup) {
   popup.append(title, text, aboutPopup.content);
 
   return popup;
+}
+
+export function getEmployeeAssignmentsCountCapacity(employees) {
+  const counts = {};
+  const assignments = employees
+    .filter((employee) => employee.assignments.length !== 0)
+    .flatMap((employee) => employee.assignments);
+  assignments.forEach(assign => assign ? counts[assign.projectId] = (counts[assign.projectId] || 0) + getNumber(assign.capacity) : '');
+  return counts;
 }

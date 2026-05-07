@@ -1,7 +1,5 @@
-import { clearDOM, createMyElement, createPopup } from "../common/functions";
+import { clearDOM, createMyElement, createPopup, getNumber, getEmployeeAssignmentsCountCapacity } from "../common/functions";
 import { getContent } from "./content";
-
-const getNumber = (n) => +Number(n).toFixed(2);
 
 export function makeAssign(popupPosition, aboutPopup) {
 
@@ -23,25 +21,32 @@ export function makeAssign(popupPosition, aboutPopup) {
   select.append(defaultOption);
 
   const projectData = [];
-  const currentCapacityProject = 0;
   for (let key in aboutPopup.projects) {
+
+    const currentCapacityProject = getEmployeeAssignmentsCountCapacity(aboutPopup.employees)[aboutPopup.projects[key].id] ?
+      getEmployeeAssignmentsCountCapacity(aboutPopup.employees)[aboutPopup.projects[key].id] : 0;
+
     projectData.push({
       id: aboutPopup.projects[key].id,
       capacity: aboutPopup.projects[key].capacity,
+      currentCapacityProject,
+      available: aboutPopup.projects[key].capacity - currentCapacityProject
     });
+
     const option = createMyElement(
       'option',
       '',
       `${aboutPopup.projects[key].project}
       (${aboutPopup.projects[key].company})
-      Available: ${aboutPopup.projects[key].capacity - currentCapacityProject}`);
+      Available: ${getNumber(aboutPopup.projects[key].capacity - currentCapacityProject)}`);
     option.value = key;
     select.append(option);
   }
 
   const rangeBlock = createMyElement('div');
   select.addEventListener('change', (e) => {
-    if (e.target.value) {
+    if (e.target.value && projectData[e.target.value].available > 0) {
+      const currentCapacityProject = getNumber(projectData[e.target.value].currentCapacityProject);
       clearDOM(rangeBlock);
       const capacityRange = createMyElement('input', 'range');
       capacityRange.type = 'range';
@@ -113,10 +118,11 @@ export function makeAssign(popupPosition, aboutPopup) {
           }
         }
       }
+      
       if (capacityDefault < efectiveCapacity + currentCapacityProject) {
         validate(
           false,
-          `Project effective capacity would exceed ${capacityDefault} (current: ${currentCapacityProject}, target: ${efectiveCapacity + currentCapacityProject})`
+          `Project effective capacity would exceed ${capacityDefault} (current: ${currentCapacityProject}, target: ${getNumber(efectiveCapacity + currentCapacityProject)})`
         );
       } else {
         validate(true);
@@ -134,26 +140,26 @@ export function makeAssign(popupPosition, aboutPopup) {
         const allCapacity = getNumber(getNumber(efectiveCapacityValue.textContent) + currentCapacityProject);
         afterAssignmentValue.textContent = allCapacity;
 
-        if (targetValue === 0) {
-          validate(
-            false,
-            'Please enter a valid capacity'
-          );
-        } else if (aboutPopup.currentCapacityEmployee + targetValue > aboutPopup.maxCapacity) {
-          validate(
-            false,
-            `Employee capacity would exceed ${aboutPopup.maxCapacity} (current: ${aboutPopup.currentCapacityEmployee}, target: ${aboutPopup.currentCapacityEmployee + targetValue})`
-          );          
-        } else {
-          if (capacityDefault < allCapacity) {
+        if (targetValue === 0 || getNumber(fitRangeLabelValue.textContent) === 0) {
             validate(
               false,
-              `Project effective capacity would exceed ${capacityDefault} (current: ${currentCapacityProject}, target: ${allCapacity})`
+              'Please enter a valid range'
             );
+          } else if (aboutPopup.currentCapacityEmployee + getNumber(capacityRangeLabelValue.textContent) > aboutPopup.maxCapacity) {
+            validate(
+              false,
+              `Employee capacity would exceed ${aboutPopup.maxCapacity} (current: ${aboutPopup.currentCapacityEmployee}, target: ${getNumber(aboutPopup.currentCapacityEmployee + getNumber(capacityRangeLabelValue.textContent))})`
+            );          
           } else {
-            validate(true);
+            if (capacityDefault < allCapacity) {
+              validate(
+                false,
+                `Project effective capacity would exceed ${capacityDefault} (current: ${currentCapacityProject}, target: ${allCapacity})`
+              );
+            } else {
+              validate(true);
+            }
           }
-        }
       });
       fitRange.addEventListener('input', (event) => {
         if (getNumber(capacityRangeLabelValue.textContent) !== 0) {
@@ -163,13 +169,25 @@ export function makeAssign(popupPosition, aboutPopup) {
           const allCapacity = getNumber(getNumber(efectiveCapacityValue.textContent) + currentCapacityProject);
           afterAssignmentValue.textContent = allCapacity;
 
-          if (capacityDefault < allCapacity) {
+          if (targetValue === 0 || getNumber(capacityRangeLabelValue.textContent) === 0) {
             validate(
               false,
-              `Project effective capacity would exceed ${capacityDefault} (current: ${currentCapacityProject}, target: ${allCapacity})`
+              'Please enter a valid range'
             );
+          } else if (aboutPopup.currentCapacityEmployee + getNumber(capacityRangeLabelValue.textContent) > aboutPopup.maxCapacity) {
+            validate(
+              false,
+              `Employee capacity would exceed ${aboutPopup.maxCapacity} (current: ${aboutPopup.currentCapacityEmployee}, target: ${getNumber(aboutPopup.currentCapacityEmployee + getNumber(capacityRangeLabelValue.textContent))})`
+            );          
           } else {
-            validate(true);
+            if (capacityDefault < allCapacity) {
+              validate(
+                false,
+                `Project effective capacity would exceed ${capacityDefault} (current: ${currentCapacityProject}, target: ${allCapacity})`
+              );
+            } else {
+              validate(true);
+            }
           }
         }
       });
@@ -205,7 +223,7 @@ export function makeAssign(popupPosition, aboutPopup) {
   const popup = createPopup({
     title: `Assign ${aboutPopup.fullName}`,
     text: `Current Capacity: ${aboutPopup.currentCapacityEmployee} / ${aboutPopup.maxCapacity}`,
-    subtext: `Available: ${aboutPopup.maxCapacity - aboutPopup.currentCapacityEmployee}`,
+    subtext: `Available: ${getNumber(aboutPopup.maxCapacity - aboutPopup.currentCapacityEmployee)}`,
     content: assignPopupContent
   });
 

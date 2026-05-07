@@ -1,4 +1,4 @@
-import { createMyElement, noData, createConfirm } from "../common/functions";
+import { createMyElement, noData, createConfirm, getEmployeeAssignmentsCountCapacity, getNumber } from "../common/functions";
 import { getContent, setDataToLocalStorage } from './content';
 import { getDetailsTable } from "./details";
 
@@ -22,9 +22,12 @@ export function projectTable(year, month) {
     const monthlyData = JSON.parse(localStorage.getItem('monthlyData'));
     if (monthlyData.hasOwnProperty(`${year}-${month}`)) {
 
+      const employees = monthlyData[`${year}-${month}`].employees;
+      const countCapacity = getEmployeeAssignmentsCountCapacity(employees);
       const counts = {};
-      const employees = monthlyData[`${year}-${month}`].employees.filter((employee) => employee.assignments.length !== 0);
-      const assignments = employees.flatMap((employee) => employee.assignments);
+      const assignments = employees
+        .filter((employee) => employee.assignments.length !== 0)
+        .flatMap((employee) => employee.assignments);
       assignments.forEach(assign => assign ? counts[assign.projectId] = (counts[assign.projectId] || 0) + 1 : '');
 
       if (monthlyData[`${year}-${month}`].projects.length !== 0) {
@@ -37,15 +40,46 @@ export function projectTable(year, month) {
             capacity
           } = monthlyData[`${year}-${month}`].projects[key];
 
-          const currentCapacity = 0;
-          const currentIncome = 0;
+          const currentCapacity = countCapacity[id] ? countCapacity[id] : 0;
+
+
+          let name = '';
+          let salary = 0;
+          let vacation = [];
+          employees.forEach((e) => {
+            e.assignments.forEach((a) => {
+              if (a.projectId === id) {
+                name = `${e.name} ${e.surname}`;
+                salary = e.salary;
+                vacation = e.vacationDays;
+              }
+            });
+          });
+          
+          function getDetailsBtnHandler() {
+            return getDetailsTable({
+              modalTitle: 'Employees on',
+              thTitle: 'Employee',
+              name: `${name}`,
+              item: 'project-employees',
+              salary,
+              assign: assignments.filter((a) => a.projectId === id),
+              vacation,
+              projects: monthlyData[`${year}-${month}`].projects,
+              employees: monthlyData[`${year}-${month}`].employees
+            });
+          }
+
+          let currentIncome = 0;
+          currentIncome = currentIncome + getDetailsBtnHandler().profit;
+          document.body.removeChild(document.querySelector('.overlay'));
           const incomeClass = currentIncome >= 0 ? 'profit' : 'loss';
 
           const tr = createMyElement('tr');
           const tdCompany = createMyElement('td', '', company);
           const tdProject = createMyElement('td', '', project);
           const tdBudget = createMyElement('td', '', `$${Number(budget).toFixed(2)}`);
-          const tdCapacity = createMyElement('td', '', `${currentCapacity.toFixed(1)}/${capacity}`);
+          const tdCapacity = createMyElement('td', '', `${currentCapacity.toFixed(1)} / ${capacity}`);
           const tdEmployees = createMyElement('td');
           const tdIncome = createMyElement('td', `income ${incomeClass}`, `$${currentIncome.toFixed(2)}`);
           const tdActions = createMyElement('td');
@@ -58,14 +92,7 @@ export function projectTable(year, month) {
               `Employees (${counts[id]})`
             );
 
-            employeeBtn.addEventListener('click', () => {
-              getDetailsTable({
-                modalTitle: 'Employees on',
-                thTitle: 'Employee',
-                name: `${project}`,
-                item: 'project-employees'
-              });
-            });
+            employeeBtn.addEventListener('click', getDetailsBtnHandler);
 
             tdEmployees.append(employeeBtn);
           } else {
