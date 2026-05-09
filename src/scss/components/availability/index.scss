@@ -1,0 +1,16 @@
+@use '../../common/variables' as v;
+@use '../../common/mixins' as m;
+@use '../../common/extends';
+
+.modal.availability {
+  width: 600px;
+
+  .modal-text {
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  .modal-content {
+    overflow: auto;
+  }
+}

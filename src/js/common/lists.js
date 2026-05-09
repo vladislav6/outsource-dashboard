@@ -38,6 +38,16 @@ export const links = [
   },
 ];
 
+export const weekDaysName = [
+  'Sun',
+  'Mon',
+  'Tue',
+  'Wed',
+  'Thu',
+  'Fri',
+  'Sat'
+];
+
 export const months = [
   "January",
   "February",

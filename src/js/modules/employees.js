@@ -2,6 +2,7 @@ import { createMyElement, noData, createConfirm, getNumber } from "../common/fun
 import { getContent } from "./content";
 import { makeAssign } from "./assignments";
 import { getDetailsTable } from "./details";
+import { makeAvailability } from "./availability";
 
 function getAge(date) {
   const currentYear = new Date().getFullYear();
@@ -163,6 +164,12 @@ export function employeeTable(year, month) {
             }
           });
           
+          availability.addEventListener('click', () => makeAvailability({
+            name: `${name} ${surname}`,
+            year,
+            month
+          }));
+
           tdAssignments.append(showAssignments);
           tdActions.append(availability, assign, deleteEmployee);
           tr.append(tdName, tdSurname, tdAge, tdPosition, tdSalary, tdPayment, tdAssignments, tdIncome, tdActions);
