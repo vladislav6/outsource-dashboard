@@ -101,3 +101,16 @@ export function getEmployeeAssignmentsCountCapacity(employees) {
   assignments.forEach(assign => assign ? counts[assign.projectId] = (counts[assign.projectId] || 0) + getNumber(assign.capacity) : '');
   return counts;
 }
+
+export function getWorkDaysInMonth(year, month) {
+  let workDays = 0;
+  let daysInMonth = new Date(Number(year), Number(month) + 1, 0).getDate();
+  for (let i = 1; i <= daysInMonth; i += 1) {
+    let date = new Date(year, month, i);
+    let dayOfWeek = date.getDay();
+    if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+        workDays += 1;
+    }
+  }
+  return workDays;
+}

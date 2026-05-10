@@ -12,5 +12,85 @@
 
   .modal-content {
     overflow: auto;
+  
+
+  .table.calendar {
+    min-width: 100%;
+
+      tr:hover {
+        background-color: v.$content-background;
+      }
+
+      td {
+        padding: 15px;
+        text-align: center;
+        font-weight: normal;
+        cursor: pointer;
+      }
+
+      td:hover {
+        background-color: v.$dark;
+        color: v.$static-white;
+        font-weight: bold;
+      }
+
+      .day-off.today,
+      .today {
+        font-weight: bold;
+        background-color: v.$content-background-hover;
+      }
+
+      .day-off,
+      .empty-cell {
+        cursor: default;
+      }
+
+      .empty-cell:hover {
+        background-color: v.$content-background;
+      }
+
+      .day-off {
+        background-color: v.$content-border;
+        color: v.$silver;
+      }
+
+      .day-off:hover {
+        background-color: v.$content-border;
+        color: v.$silver;
+        font-weight: normal;
+      }
+
+      .vacation {
+        background-color: v.$dark-select;
+        color: v.$static-white;
+      }
+
+      .vacation:hover {
+        background-color: v.$dark-hover;
+      }
+    }
+
+    .set-vacation {
+      padding: 10px 15px;
+      background-color: v.$availability;
+      color: v.$static-white;
+    }
+
+    .set-vacation:hover {
+      background-color: v.$availability-hover;
+    }
+  }
+}
+
+@media (max-width: 470px) {
+  .modal.availability {
+    .modal-content {
+      .table.calendar {
+        th,
+        td {
+          padding: 10px 5px;
+        }
+      }
+    }
   }
 }

@@ -55,24 +55,23 @@ export function projectTable(year, month) {
               }
             });
           });
-          
-          function getDetailsBtnHandler() {
-            return getDetailsTable({
-              modalTitle: 'Employees on',
-              thTitle: 'Employee',
-              name: `${name}`,
-              item: 'project-employees',
-              salary,
-              assign: assignments.filter((a) => a.projectId === id),
-              vacation,
-              projects: monthlyData[`${year}-${month}`].projects,
-              employees: monthlyData[`${year}-${month}`].employees
-            });
-          }
+
+          const overlay = getDetailsTable({
+            modalTitle: 'Employees on',
+            thTitle: 'Employee',
+            name: `${name}`,
+            item: 'project-employees',
+            salary,
+            assign: assignments.filter((f) => f.projectId === id),
+            vacation,
+            projects: monthlyData[`${year}-${month}`].projects,
+            employees: monthlyData[`${year}-${month}`].employees,
+            year,
+            month
+          });
 
           let currentIncome = 0;
-          currentIncome = currentIncome + getDetailsBtnHandler().profit;
-          document.body.removeChild(document.querySelector('.overlay'));
+          currentIncome += overlay.profit;
           const incomeClass = currentIncome >= 0 ? 'profit' : 'loss';
 
           const tr = createMyElement('tr');
@@ -92,8 +91,7 @@ export function projectTable(year, month) {
               `Employees (${counts[id]})`
             );
 
-            employeeBtn.addEventListener('click', getDetailsBtnHandler);
-
+            employeeBtn.addEventListener('click', () => document.body.append(overlay.overlay));
             tdEmployees.append(employeeBtn);
           } else {
             tdEmployees.append('-');

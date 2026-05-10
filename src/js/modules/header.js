@@ -67,6 +67,11 @@ export function makeSeedData(period) {
                 document.body.querySelector('.confirm').addEventListener('click', () => {
                   monthlyData[`${period.year}-${period.month}`] = monthlyData[key];
                   localStorage.setItem('monthlyData', JSON.stringify(monthlyData));
+                  const monthly = JSON.parse(localStorage.getItem('monthlyData'));
+                  for (let employee in monthly[`${period.year}-${period.month}`].employees) {
+                    monthly[`${period.year}-${period.month}`].employees[employee].vacationDays = []; 
+                  }
+                  localStorage.setItem('monthlyData', JSON.stringify(monthly));
                   getContent(0);
                   [...document.querySelectorAll('.overlay')].forEach((element) => document.body.removeChild(element));
                 });

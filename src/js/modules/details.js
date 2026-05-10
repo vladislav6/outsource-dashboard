@@ -1,10 +1,7 @@
-import { createModal, createMyElement, noData, getNumber, getEmployeeAssignmentsCountCapacity } from "../common/functions";
+import { createModal, createMyElement, noData, getNumber, getEmployeeAssignmentsCountCapacity, getWorkDaysInMonth } from "../common/functions";
 
 export function getDetailsTable(details) {
-  const getProfit = {
-  'profit': 0
-  };
-
+  let profitSum = 0;
   const table = createMyElement('table', 'table');
   const tr = createMyElement('tr');
   
@@ -22,8 +19,9 @@ export function getDetailsTable(details) {
   table.append(tr);
 
   if (details.assign && details.assign.length !== 0) {
-    const workingDays = 20;
-    const vacationWorkingDays = details.vacation.length;
+
+    const workingDays = getWorkDaysInMonth(details.year, details.month);
+    const vacationWorkingDays = details.vacation ? details.vacation.length : 0;
     const vacationCoefficient = (workingDays - vacationWorkingDays) / workingDays;
 
     const projectDetails = [];
@@ -51,7 +49,7 @@ export function getDetailsTable(details) {
 
       const payment = getNumber(details.salary * Math.max(0.5, capacity));
       const profit = employeeRevenue - payment;
-      getProfit['profit'] += profit;
+      profitSum += profit;
       const incomeClass = profit >= 0 ? 'profit' : 'loss';
       
       const tr = createMyElement('tr');
@@ -63,7 +61,7 @@ export function getDetailsTable(details) {
       const tdEffective = createMyElement('td', '', `${effectiveCapacity[key].toFixed(3)}`);
       const tdRevenue = createMyElement('td', '', `$${employeeRevenue.toFixed(2)}`);
       const tdCost = createMyElement('td', '', `$${payment.toFixed(2)}`);
-      const tdProfit = createMyElement('td', `income ${incomeClass}`, `$${profit.toFixed(2)}`);
+      const tdProfit = createMyElement('td', `income income-details ${incomeClass}`, `$${profit.toFixed(2)}`);
       const tdActions = createMyElement('td');
 
       const editBtn = createMyElement('button', 'btn assing-edit', 'Edit');
@@ -86,6 +84,8 @@ export function getDetailsTable(details) {
     content: table
   });
 
-  document.body.append(overlay);
-  return getProfit;
+  return {
+    overlay,
+    profit: profitSum
+  }
 }

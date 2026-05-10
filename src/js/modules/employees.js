@@ -63,25 +63,6 @@ export function employeeTable(year, month) {
           const payment = getNumber(salary * capacity);
           const assignmentCount = assignments.length;
 
-          function getDetailsBtnHandler() {
-            return getDetailsTable({
-              modalTitle: 'Assignments for',
-              thTitle: 'Project',
-              name: `${name} ${surname}`,
-              item: 'employee-assignments',
-              salary,
-              assign: assignments,
-              vacation: vacationDays,
-              projects: monthlyData[`${year}-${month}`].projects,
-              employees: monthlyData[`${year}-${month}`].employees
-            });
-          }
-
-          let projectedIncome = 0;
-          projectedIncome = projectedIncome + getDetailsBtnHandler().profit;
-          document.body.removeChild(document.querySelector('.overlay'));
-          const incomeClass = projectedIncome >= 0 ? 'profit' : 'loss';
-
           const tr = createMyElement('tr');
           const tdName = createMyElement('td', '', name);
           const tdSurname = createMyElement('td', '', surname);
@@ -92,13 +73,24 @@ export function employeeTable(year, month) {
           const tdAssignments = createMyElement('td');
 
           let showAssignments = '-';
+          const overlayAssignments = getDetailsTable({
+            modalTitle: 'Assignments for',
+            thTitle: 'Project',
+            name: `${name} ${surname}`,
+            item: 'employee-assignments',
+            salary,
+            assign: assignments,
+            vacation: vacationDays,
+            projects: monthlyData[`${year}-${month}`].projects,
+            employees: monthlyData[`${year}-${month}`].employees,
+            year,
+            month
+          });
+
           if (assignmentCount > 0 ) {
             showAssignments = createMyElement('button', 'btn assignments', 'Show');
-
             const assignmentDetails = `Assignments ${assignmentCount} and employee capacity ${currentCapacityEmployee} / ${maxCapacity}`;
-
-            showAssignments.addEventListener('click', getDetailsBtnHandler);
-
+            showAssignments.addEventListener('click', () => document.body.append(overlayAssignments.overlay));
             showAssignments.addEventListener('mouseover', (e) => {
               const rect = e.target.getBoundingClientRect();
               const tooltip = createMyElement('div', 'tooltip', assignmentDetails);
@@ -111,6 +103,10 @@ export function employeeTable(year, month) {
               document.body.removeChild(document.querySelector('.tooltip'));
             });
           }
+
+          let projectedIncome = 0;
+          projectedIncome += overlayAssignments.profit;
+          const incomeClass = projectedIncome >= 0 ? 'profit' : 'loss';
 
           const tdIncome = createMyElement('td', `${incomeClass}`, `$${projectedIncome.toFixed(2)}`);
           const tdActions = createMyElement('td', 'actions');
@@ -163,11 +159,14 @@ export function employeeTable(year, month) {
               makeAssign(assign.getBoundingClientRect(), aboutPopup);
             }
           });
-          
+
           availability.addEventListener('click', () => makeAvailability({
             name: `${name} ${surname}`,
             year,
-            month
+            month,
+            monthlyData,
+            vacation: vacationDays,
+            key
           }));
 
           tdAssignments.append(showAssignments);
@@ -192,6 +191,6 @@ export function employeeTable(year, month) {
       }
     }
   }
-
+  
   return table;
 }
