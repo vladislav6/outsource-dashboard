@@ -98,7 +98,7 @@ export function getEmployeeAssignmentsCountCapacity(employees) {
   const assignments = employees
     .filter((employee) => employee.assignments.length !== 0)
     .flatMap((employee) => employee.assignments);
-  assignments.forEach(assign => assign ? counts[assign.projectId] = (counts[assign.projectId] || 0) + getNumber(assign.capacity) : '');
+  assignments.forEach(assign => assign ? counts[assign.projectId] = (counts[assign.projectId] || 0) + getNumber(assign.capacity) * getNumber(assign.fit) : '');
   return counts;
 }
 

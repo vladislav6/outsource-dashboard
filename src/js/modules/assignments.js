@@ -93,7 +93,7 @@ export function makeAssign(popupPosition, aboutPopup) {
 
       const afterAssignment = createMyElement('div', 'info-row', 'After Assignment:');
       const wrapperElement = createMyElement('span', 'info-value');
-      const afterAssignmentValue = createMyElement('span', '', `${efectiveCapacity + currentCapacityProject}`);
+      const afterAssignmentValue = createMyElement('span', '', `${getNumber(efectiveCapacity + currentCapacityProject)}`);
       const afterAssignmentCapacityValue = createMyElement('span', '', ` / ${capacityDefault}`);
       wrapperElement.append(afterAssignmentValue, afterAssignmentCapacityValue);
       afterAssignment.append(wrapperElement);

@@ -1,4 +1,4 @@
-import { links, formProject, formEmployee, months } from '../common/lists';
+import { links, formProject, formEmployee, months, estIncomePerMonth } from '../common/lists';
 import { getCurrentPeriod, clearDOM, createMyElement, createModal, noData, createConfirm } from '../common/functions';
 import { createForm } from './form';
 import { getContent } from './content';
@@ -37,12 +37,13 @@ export function makeSeedData(period) {
 
   if (localStorage.getItem('monthlyData')) {
     const monthlyData = JSON.parse(localStorage.getItem('monthlyData'));
+    const currentPeriod = `${period.year}-${period.month}`;
     for (let key in monthlyData) {
       if (
         monthlyData[key].projects.length !== 0 ||
         monthlyData[key].employees.length !== 0
       ) {
-        const currentPeriod = `${period.year}-${period.month}`;
+        getContent(0, key);
         if (key !== currentPeriod) {
           if (seedTable.querySelector('.no-data')) {
             seedTable.removeChild(trNoData);
@@ -50,14 +51,15 @@ export function makeSeedData(period) {
           const [year, month] = key.split('-');
           const projectCount = String(monthlyData[key].projects.length);
           const employeeCount = String(monthlyData[key].employees.length);
-          const total = document.querySelector('.total').textContent;
+          const total = estIncomePerMonth.getIncome(key);
+          const incomeClass = total >= 0 ? 'profit' : 'loss';
 
           const tr = createMyElement('tr');
           const tdYear = createMyElement('td', '', year);
           const tdMonth = createMyElement('td', '', months[month]);
           const tdProject = createMyElement('td', '', projectCount);
           const tdEmployee = createMyElement('td', '', employeeCount);
-          const tdTotal = createMyElement('td', '', total);
+          const tdTotal = createMyElement('td', `${incomeClass}`, `$${total.toFixed(2)}`);
           const tdAction = createMyElement('td');
           const seedButton = createMyElement('button', 'btn seed', 'Seed');
 
@@ -98,6 +100,7 @@ export function makeSeedData(period) {
   const modal = createModal(seedDataContent);
 
   document.body.append(modal);
+  getContent(0);
 }
 
 export function getHeader(page) {

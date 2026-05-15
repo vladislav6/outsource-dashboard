@@ -1,6 +1,6 @@
 import { projectTable } from "./projects";
 import { employeeTable } from "./employees";
-import { links } from "../common/lists";
+import { links,estIncomePerMonth } from "../common/lists";
 import { clearDOM, createMyElement, getCurrentPeriod } from "../common/functions";
 
 export function setDataToLocalStorage() {
@@ -64,28 +64,41 @@ window.addEventListener('load', () => {
   }
 });
 
-export function getContent(pageId) {
+export function getContent(pageId, key = '') {
   const main = document.querySelector('.main');
   clearDOM(main);
-  const month = getCurrentPeriod().month;
-  const year = getCurrentPeriod().year;
-  
-  const table = pageId === 0 ? projectTable(year, month) : employeeTable(year, month);
-  if (pageId === 0) {
-
-    const totalEstIncome = [...table.querySelectorAll('.income')].reduce((acc, tdElement) => {
-      const income = Number(tdElement.textContent.slice(1));
-      return acc += income;
-    }, 0);
-
-    const incomeClass = totalEstIncome >= 0 ? 'profit' : 'loss';
-
-    const totalIncome = createMyElement('p', 'total-income', 'Total Estimated Income: ');
-    const total = createMyElement('span', `total ${incomeClass}`, `$${totalEstIncome.toFixed(2)}`);
-    totalIncome.append(total);
-    main.append(totalIncome);
+  let year = 0;
+  let month = 0;
+  let isDrawTable = true;
+  if (key) {
+    const per = key.split('-');
+    year = Number(per[0]);
+    month = Number(per[1]);
+    isDrawTable = false;
+  } else {
+    month = getCurrentPeriod().month;
+    year = getCurrentPeriod().year;
   }
-  main.prepend(table);
+  if(!isDrawTable) {
+    estIncomePerMonth.setIncome(`${year}-${month}`, projectTable(year, month, isDrawTable));
+  } else {
+    const table = pageId === 0 ? projectTable(year, month, isDrawTable) : employeeTable(year, month);
+    if (pageId === 0) {
+
+      const totalEstIncome = [...table.querySelectorAll('.income')].reduce((acc, tdElement) => {
+        const income = Number(tdElement.textContent.slice(1));
+        return acc += income;
+      }, 0);
+
+      const incomeClass = totalEstIncome >= 0 ? 'profit' : 'loss';
+
+      const totalIncome = createMyElement('p', 'total-income', 'Total Estimated Income: ');
+      const total = createMyElement('span', `total ${incomeClass}`, `$${totalEstIncome.toFixed(2)}`);
+      totalIncome.append(total);
+      main.append(totalIncome);
+    }
+    main.prepend(table);
+  }
 }
 
 document.querySelector('.months').addEventListener('change', () => {

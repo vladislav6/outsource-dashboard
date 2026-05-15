@@ -2,7 +2,8 @@ import { createMyElement, noData, createConfirm, getEmployeeAssignmentsCountCapa
 import { getContent, setDataToLocalStorage } from './content';
 import { getDetailsTable } from "./details";
 
-export function projectTable(year, month) {
+
+export function projectTable(year, month, isDrawTable) {
   const table = createMyElement('table', 'table');
   const tr = createMyElement('tr');
   
@@ -18,6 +19,7 @@ export function projectTable(year, month) {
 
   table.append(tr);
 
+  let totalIncome = 0;
   if (localStorage.getItem('monthlyData')) {
     const monthlyData = JSON.parse(localStorage.getItem('monthlyData'));
     if (monthlyData.hasOwnProperty(`${year}-${month}`)) {
@@ -41,7 +43,6 @@ export function projectTable(year, month) {
           } = monthlyData[`${year}-${month}`].projects[key];
 
           const currentCapacity = countCapacity[id] ? countCapacity[id] : 0;
-
 
           let name = '';
           let salary = 0;
@@ -70,9 +71,8 @@ export function projectTable(year, month) {
             month
           });
 
-          let currentIncome = 0;
-          currentIncome += overlay.profit;
-          const incomeClass = currentIncome >= 0 ? 'profit' : 'loss';
+          totalIncome += overlay.profit;
+          const incomeClass = overlay.profit >= 0 ? 'profit' : 'loss';
 
           const tr = createMyElement('tr');
           const tdCompany = createMyElement('td', '', company);
@@ -80,7 +80,7 @@ export function projectTable(year, month) {
           const tdBudget = createMyElement('td', '', `$${Number(budget).toFixed(2)}`);
           const tdCapacity = createMyElement('td', '', `${currentCapacity.toFixed(1)} / ${capacity}`);
           const tdEmployees = createMyElement('td');
-          const tdIncome = createMyElement('td', `income ${incomeClass}`, `$${currentIncome.toFixed(2)}`);
+          const tdIncome = createMyElement('td', `income ${incomeClass}`, `$${overlay.profit.toFixed(2)}`);
           const tdActions = createMyElement('td');
           const deleteProject = createMyElement('button', 'btn delete', 'Delete');
 
@@ -140,5 +140,5 @@ export function projectTable(year, month) {
     }
   }
 
-  return table;
+  return isDrawTable ? table : totalIncome;
 }

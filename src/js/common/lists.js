@@ -1,4 +1,14 @@
-import { createMyElement } from "./functions";
+import { createMyElement, getNumber } from "./functions";
+
+export const estIncomePerMonth = {
+  totalIncome: {},
+  setIncome(period, value) {
+    Object.assign(this.totalIncome, { [period]: getNumber(value) });
+  },
+  getIncome(period) {
+    return this.totalIncome[period];
+  }
+};
 
 export const links = [
   {
