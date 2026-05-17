@@ -1,5 +1,5 @@
 import { links, formProject, formEmployee, months, estIncomePerMonth } from '../common/lists';
-import { getCurrentPeriod, clearDOM, createMyElement, createModal, noData, createConfirm } from '../common/functions';
+import { getCurrentPeriod, clearDOM, createMyElement, createModal, noData, createConfirm, setBigTable } from '../common/functions';
 import { createForm } from './form';
 import { getContent } from './content';
 
@@ -125,7 +125,14 @@ export function getHeader(page) {
   for (let key in page.buttons) {
     const btn = page.buttons[key]();
 
-    btn.addEventListener('click', () => key === 'seedData' ? makeSeedData(getCurrentPeriod()) : addButtons(key));
+    btn.addEventListener('click', () => {
+      if (key === 'seedData') {
+        makeSeedData(getCurrentPeriod());
+        setBigTable();
+      } else {
+        addButtons(key);
+      }
+    });
 
     btnBlock.append(btn);
   }

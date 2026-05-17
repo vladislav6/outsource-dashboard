@@ -92,11 +92,6 @@
 
   .seed-data {
 
-    .modal-content {
-      overflow-y: scroll;
-      height: 80vh;
-    }
-
     .table {
       td {
         padding: 20px;
@@ -129,6 +124,13 @@
       .seed:hover {
         background-color: v.$green-hover;
       }
+    }
+  }
+
+  .big-table {
+    .modal-content {
+      overflow-y: scroll;
+      height: 80vh;
     }
   }
 }

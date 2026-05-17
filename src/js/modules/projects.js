@@ -1,4 +1,4 @@
-import { createMyElement, noData, createConfirm, getEmployeeAssignmentsCountCapacity, getNumber } from "../common/functions";
+import { createMyElement, noData, createConfirm, getEmployeeAssignmentsCountCapacity, getNumber, getAllAssignments, setBigTable } from "../common/functions";
 import { getContent, setDataToLocalStorage } from './content';
 import { getDetailsTable } from "./details";
 
@@ -25,48 +25,30 @@ export function projectTable(year, month, isDrawTable) {
     if (monthlyData.hasOwnProperty(`${year}-${month}`)) {
 
       const employees = monthlyData[`${year}-${month}`].employees;
+      let projects = monthlyData[`${year}-${month}`].projects;
       const countCapacity = getEmployeeAssignmentsCountCapacity(employees);
       const counts = {};
-      const assignments = employees
-        .filter((employee) => employee.assignments.length !== 0)
-        .flatMap((employee) => employee.assignments);
+      const assignments = getAllAssignments(employees);
       assignments.forEach(assign => assign ? counts[assign.projectId] = (counts[assign.projectId] || 0) + 1 : '');
 
-      if (monthlyData[`${year}-${month}`].projects.length !== 0) {
-        for (let key in monthlyData[`${year}-${month}`].projects) {
+      if (projects.length !== 0) {
+        for (let key in projects) {
           const {
             id,
             project,
             company,
             budget,
             capacity
-          } = monthlyData[`${year}-${month}`].projects[key];
+          } = projects[key];
 
           const currentCapacity = countCapacity[id] ? countCapacity[id] : 0;
 
-          let name = '';
-          let salary = 0;
-          let vacation = [];
-          employees.forEach((e) => {
-            e.assignments.forEach((a) => {
-              if (a.projectId === id) {
-                name = `${e.name} ${e.surname}`;
-                salary = e.salary;
-                vacation = e.vacationDays;
-              }
-            });
-          });
-
           const overlay = getDetailsTable({
-            modalTitle: 'Employees on',
+            modalTitle: `Employees on ${project}`,
             thTitle: 'Employee',
-            name: `${name}`,
-            item: 'project-employees',
-            salary,
             assign: assignments.filter((f) => f.projectId === id),
-            vacation,
-            projects: monthlyData[`${year}-${month}`].projects,
-            employees: monthlyData[`${year}-${month}`].employees,
+            projects,
+            employees,
             year,
             month
           });
@@ -91,7 +73,10 @@ export function projectTable(year, month, isDrawTable) {
               `Employees (${counts[id]})`
             );
 
-            employeeBtn.addEventListener('click', () => document.body.append(overlay.overlay));
+            employeeBtn.addEventListener('click', () => {
+              document.body.append(overlay.overlay);
+              setBigTable();
+            });
             tdEmployees.append(employeeBtn);
           } else {
             tdEmployees.append('-');
@@ -104,10 +89,9 @@ export function projectTable(year, month, isDrawTable) {
             if (document.body.querySelector('.confirm')) {
               document.body.querySelector('.confirm').addEventListener('click', () => {
                 const projectId = e.target.getAttribute('data-id');
-                if (monthlyData[`${year}-${month}`].projects[key].id === projectId) {
-                  monthlyData[`${year}-${month}`].projects[key] = '';
-                  monthlyData[`${year}-${month}`].projects =
-                    monthlyData[`${year}-${month}`].projects.filter((project) => project !== '');
+                if (projects[key].id === projectId) {
+                  projects[key] = '';
+                  monthlyData[`${year}-${month}`].projects = projects.filter((project) => project !== '');
 
                   employees.forEach((employee, index) => {
                     employee.assignments.forEach((assign, ind) => {

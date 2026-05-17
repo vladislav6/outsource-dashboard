@@ -3,6 +3,16 @@ import { employeeTable } from "./employees";
 import { links,estIncomePerMonth } from "../common/lists";
 import { clearDOM, createMyElement, getCurrentPeriod } from "../common/functions";
 
+if (document.querySelector('.overlay .table')) {
+  const rect = document.querySelector('.overlay .table').getBoundingClientRect();
+  if (rect.height + rect.x > document.body.offsetHeight) {
+    document.querySelector('.modal').classList.add('big-table');
+  } else {
+    document.querySelector('.modal').classList.add('small-table');
+  }
+  console.log(rect);
+}
+
 export function setDataToLocalStorage() {
   if (localStorage.getItem('monthlyData')) {
     const monthlyData = JSON.parse(localStorage.getItem('monthlyData'));

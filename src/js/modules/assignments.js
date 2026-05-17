@@ -1,9 +1,12 @@
-import { clearDOM, createMyElement, createPopup, getNumber, getEmployeeAssignmentsCountCapacity } from "../common/functions";
+import { clearDOM, createMyElement, createPopup, getNumber,
+  getEmployeeAssignmentsCountCapacity, setPopupPosition, 
+  createRange, createLabel, closePopup
+} from "../common/functions";
 import { getContent } from "./content";
 
 export function makeAssign(popupPosition, aboutPopup) {
 
-  const assignPopupContent = createMyElement('div', 'assign-popup-content');
+  const assignPopupContent = createMyElement('div', 'popup-content');
 
   const label = createMyElement('label', 'assign-label', 'Select Project:');
   const select = createMyElement('select', 'assign-select');
@@ -13,13 +16,18 @@ export function makeAssign(popupPosition, aboutPopup) {
   const assignCnl = createMyElement('button', 'btn assign-cnl', 'Cancel');
   const btnBlock = createMyElement('div', 'assign-btn-block');
 
-  assignCnl.addEventListener('click', () => document.body.removeChild(document.querySelector('.popup')));
+  assignCnl.addEventListener('click', closePopup);
   
   const defaultOption = createMyElement('option', '', 'Select a project');
   defaultOption.value = '';
   defaultOption.selected = true;
   select.append(defaultOption);
 
+  const validateRangeCapacity = createMyElement('p', 'validate-range-capacity');
+
+  let capacityValue = 0;
+  let fitValue = 0;
+  let selectedProject = '';
   const projectData = [];
   for (let key in aboutPopup.projects) {
 
@@ -45,40 +53,47 @@ export function makeAssign(popupPosition, aboutPopup) {
 
   const rangeBlock = createMyElement('div');
   select.addEventListener('change', (e) => {
-    if (e.target.value && projectData[e.target.value].available > 0) {
-      const currentCapacityProject = getNumber(projectData[e.target.value].currentCapacityProject);
+    selectedProject = e.target.value;
+    if (
+      selectedProject
+      && projectData[selectedProject].available > 0
+      && !aboutPopup.assignments.includes(projectData[selectedProject].id)
+    ) {
       clearDOM(rangeBlock);
-      const capacityRange = createMyElement('input', 'range');
-      capacityRange.type = 'range';
-      capacityRange.min = 0;
-      capacityRange.max = 1.5;
-      capacityRange.step = 0.1;
-      capacityRange.value =
-        aboutPopup.currentCapacityEmployee !== 0 ?
-        aboutPopup.maxCapacity - aboutPopup.currentCapacityEmployee : 1;
-      const capacityRangeLabel = createMyElement('label', 'label', 'Capacity Allocation: ');
-      const capacityRangeLabelValue = createMyElement('span', 'value', `${capacityRange.value}`);
-      const capacityHint = createMyElement('span', 'hint', 'Adjust capacity (0.0 - 1.5)')
+      const currentCapacityProject = getNumber(projectData[selectedProject].currentCapacityProject);
+      validateRangeCapacity.textContent = '';
+      
+      const capacityRange = createRange({
+        maxValue: 1.5,
+        value: aboutPopup.currentCapacityEmployee !== 0 ?
+          aboutPopup.maxCapacity - aboutPopup.currentCapacityEmployee :
+          1
+      });
 
-      capacityRangeLabel.append(capacityRangeLabelValue);
-      capacityRangeLabel.append(capacityRange, capacityHint);
-      
-      const fitRange = createMyElement('input', 'range');
-      fitRange.type = 'range';
-      fitRange.min = 0;
-      fitRange.max = 1;
-      fitRange.step = 0.1;
-      fitRange.value = 1;
-      const fitRangeLabel = createMyElement('label', 'label', 'Project Fit: ');
-      const fitRangeLabelValue = createMyElement('span', 'value', `${fitRange.value}`);
-      const fitHint = createMyElement('span', 'hint', 'Project fit coefficient (0.0-1.0)');
-      
-      fitRangeLabel.append(fitRangeLabelValue);
-      fitRangeLabel.append(fitRange, fitHint);
+      const capacityRangeLabel = createLabel({
+        labelTitle: 'Capacity Allocation: ',
+        value: capacityRange.value,
+        hintText: 'Adjust capacity (0.0 - 1.5)',
+        range: capacityRange,
+        class: 'capacity-range-label-value'
+      });
+
+      const fitRange = createRange({
+        maxValue: 1.0,
+        value: 1
+      });
+
+      const fitRangeLabel = createLabel({
+        labelTitle: 'Project Fit: ',
+        value: fitRange.value,
+        hintText: 'Project fit coefficient (0.0 - 1.0)',
+        range: fitRange,
+        class: 'fit-range-label-value'
+      });
 
       const projectInfo = createMyElement('div', 'project-info');
       const projectCapacity = createMyElement('div', 'info-row', 'Project Capacity:');
-      const capacityDefault = projectData[e.target.value].capacity;
+      const capacityDefault = projectData[selectedProject].capacity;
       const projectCapacityValue = createMyElement(
         'span',
         'info-value',
@@ -99,11 +114,11 @@ export function makeAssign(popupPosition, aboutPopup) {
       afterAssignment.append(wrapperElement);
       
       projectInfo.append(projectCapacity, efectiveCapacityElement, afterAssignment);
-
-      const validateRangeCapacity = createMyElement('p', 'validate-range-capacite');
       
       function validate(isValid, msg = '') {
         if (isValid) {
+          capacityValue = capacityRange.value;
+          fitValue = fitRange.value;
           assignBtn.disabled = false;
           assignBtn.classList.remove('disable');
           if (msg === '' && rangeBlock.contains(validateRangeCapacity)) {
@@ -133,6 +148,9 @@ export function makeAssign(popupPosition, aboutPopup) {
         rangeBlock.append(validateRangeCapacity);
       }
       
+      const capacityRangeLabelValue = document.querySelector('.capacity-range-label-value');
+      const fitRangeLabelValue = document.querySelector('.fit-range-label-value');
+
       capacityRange.addEventListener('input', (event) => {
         const targetValue = getNumber(event.target.value);
         capacityRangeLabelValue.textContent = targetValue;
@@ -192,28 +210,42 @@ export function makeAssign(popupPosition, aboutPopup) {
         }
       });
 
-      assignBtn.addEventListener('click', () => {
-        aboutPopup.monthlyData[`${aboutPopup.year}-${aboutPopup.month}`].employees[aboutPopup.key].assignments.push({
-          projectId: projectData[e.target.value].id,
-          capacity: capacityRangeLabelValue.textContent,
-          fit: fitRangeLabelValue.textContent
-        });
-        localStorage.setItem('monthlyData', JSON.stringify(aboutPopup.monthlyData));
-        if (document.querySelector('.popup')) {
-          document.body.removeChild(document.querySelector('.popup'));
-        }
-        getContent(1);
-      });
-
       if (window.innerHeight < parseInt(popup.style.top) + popup.offsetHeight) {
         popup.style.bottom = '20px';
         popup.style.top = 'auto';
       }
+      
     } else {
       clearDOM(rangeBlock);
       assignBtn.disabled = true;
       assignBtn.classList.add('disable');
+      if (!selectedProject) {
+        validateRangeCapacity.textContent = 'Select a project, please!';
+      }
+      if (selectedProject && aboutPopup.assignments.includes(projectData[selectedProject].id)) {
+        validateRangeCapacity.textContent = 'Employee has been allready assigned to project';
+      }
+      if (selectedProject && projectData[selectedProject].available <= 0) {
+        validateRangeCapacity.textContent = 'Available capacity project equal 0';
+      }
+      if (validateRangeCapacity.textContent !== '') {
+        rangeBlock.append(validateRangeCapacity);
+      }
     }
+  });
+
+  assignBtn.addEventListener('click', () => {
+    aboutPopup.monthlyData[`${aboutPopup.year}-${aboutPopup.month}`].employees[aboutPopup.key].assignments.push({
+      projectId: projectData[selectedProject].id,
+      employeeId: aboutPopup.id,
+      capacity: capacityValue,
+      fit: fitValue
+    });
+    localStorage.setItem('monthlyData', JSON.stringify(aboutPopup.monthlyData));
+    if (document.querySelector('.popup')) {
+      document.body.removeChild(document.querySelector('.popup'));
+    }
+    getContent(1);
   });
 
   label.append(select);
@@ -229,12 +261,5 @@ export function makeAssign(popupPosition, aboutPopup) {
 
   document.body.append(popup);
 
-  const popupHeight = popup.offsetHeight;
-  const viewportHeight = window.innerHeight;
-  if (popupPosition.bottom > viewportHeight - popupHeight) {
-    popup.style.bottom = '20px';
-  } else {
-    popup.style.top = `${popupPosition.top + popupPosition.height + 10}px`;
-  }
-  
+  setPopupPosition(popup, popupPosition);
 }

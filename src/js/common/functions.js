@@ -1,6 +1,24 @@
 import { months } from './lists';
 
 export const getNumber = (n) => +Number(n).toFixed(2);
+export const closePopup = () => document.body.removeChild(document.querySelector('.popup'));
+export const getAllAssignments = (employees) => employees
+        .filter((employee) => employee.assignments.length !== 0)
+        .flatMap((employee) => employee.assignments);
+export const onDisableButton = (btn) => {
+  btn.classList.add('disable'); 
+  btn.disabled  = true;
+  return btn;
+}
+export const onActiveButton = (btn) => {
+  btn.classList.remove('disable');
+  btn.disabled  = false;
+  return btn;
+}
+
+export const getEmployeeCurrentCapacity =  (assignments) => assignments.length !== 0
+  ? getNumber(assignments.reduce((acc, assignEmpl) => acc += getNumber(assignEmpl.capacity), 0))
+  : 0.0;
 
 export function getCurrentPeriod () {
   const month = document.querySelector('.months').value;
@@ -95,10 +113,9 @@ export function createPopup(aboutPopup) {
 
 export function getEmployeeAssignmentsCountCapacity(employees) {
   const counts = {};
-  const assignments = employees
-    .filter((employee) => employee.assignments.length !== 0)
-    .flatMap((employee) => employee.assignments);
-  assignments.forEach(assign => assign ? counts[assign.projectId] = (counts[assign.projectId] || 0) + getNumber(assign.capacity) * getNumber(assign.fit) : '');
+  const assignments = getAllAssignments(employees);
+  assignments.forEach(assign => assign ? counts[assign.projectId] =
+    (counts[assign.projectId] || 0) + getNumber(assign.capacity) * getNumber(assign.fit) : 0);
   return counts;
 }
 
@@ -113,4 +130,42 @@ export function getWorkDaysInMonth(year, month) {
     }
   }
   return workDays;
+}
+
+export function setPopupPosition(popup, popupPosition) {
+  const popupHeight = popup.offsetHeight;
+  const viewportHeight = window.innerHeight;
+  if (popupPosition.bottom > viewportHeight - popupHeight) {
+    popup.style.bottom = '20px';
+  } else {
+    popup.style.top = `${popupPosition.top + popupPosition.height + 10}px`;
+  }
+}
+
+export function createRange(aboutRange) {
+  const range = createMyElement('input', 'range');
+  range.type = 'range';
+  range.min = 0.1;
+  range.max = aboutRange.maxValue;
+  range.step = 0.1;
+  range.value = aboutRange.value;
+
+  return range;
+}
+
+export function createLabel(aboutLabel) {
+  const label = createMyElement('label', 'label', `${aboutLabel.labelTitle}`);
+  const labelValue = createMyElement('span', `value ${aboutLabel.class}`, `${aboutLabel.value}`);
+  const hint = createMyElement('span', 'hint', `${aboutLabel.hintText}`);
+
+  label.append(labelValue, aboutLabel.range, hint);
+
+  return label;
+}
+
+export function setBigTable() {
+  const rect = document.querySelector('.overlay .table').getBoundingClientRect();
+  if (rect.height + rect.x > document.body.offsetHeight) {
+    document.querySelector('.modal').classList.add('big-table');
+  }
 }
