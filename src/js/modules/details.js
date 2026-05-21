@@ -1,5 +1,6 @@
 import { createModal, createMyElement, noData, getNumber, getEmployeeAssignmentsCountCapacity, getWorkDaysInMonth, getEmployeeCurrentCapacity } from "../common/functions";
 import { editAssign } from "./edit-assign";
+import { unassign } from "./unassign";
 
 export function getDetailsTable(details) {
   let profitSum = 0;
@@ -59,7 +60,7 @@ export function getDetailsTable(details) {
             : projectDetails[projectId].project;
 
         const workingDays = getWorkDaysInMonth(details.year, details.month);
-        const vacationWorkingDays = employeeDetails[employeeId].vacation.length;
+        const vacationWorkingDays = employeeDetails[employeeId].vacation ? employeeDetails[employeeId].vacation.length : 0;
         const vacationCoefficient = (workingDays - vacationWorkingDays) / workingDays;
         
         const currentCapacityProject = getEmployeeAssignmentsCountCapacity(details.employees)[projectId] ?
@@ -120,6 +121,25 @@ export function getDetailsTable(details) {
             editAssign(editBtn.getBoundingClientRect(), aboutPopup);
           }
         });
+
+        unassignBtn.addEventListener('click', () => unassign({
+          modalTitle: details.modalTitle,
+          thTitle: details.thTitle,
+          name: `${employeeDetails[employeeId].name} ${employeeDetails[employeeId].surname}`,
+          employeeId,
+          projectId,
+          key: employeeDetails[employeeId].key,
+          employeeCapacity: capacity,
+          project: projectDetails[projectId].project,
+          cost: payment,
+          revenue: employeeRevenue,
+          profit,
+          projectBudjet: projectDetails[projectId].budget,
+          projectCapacity: currentCapacityProject,
+          projectCapacityDefault: projectDetails[projectId].capacity,
+          year: details.year,
+          month: details.month
+        }));
 
 
         tdActions.append(editBtn, unassignBtn);

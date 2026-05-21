@@ -83,15 +83,14 @@
       }
     }
   }
+}
 
-  .assign-btn-block {
-    @include m.flex-settings (row, no-wrap, 20px, end, center);
-    margin-top: 20px;
+.assign-btn-block {
+  @include m.flex-settings (row, no-wrap, 20px, end, center);
+  margin-top: 20px;
 
-    .btn {
-      padding: 10px 20px;
-    }
-
+  .btn {
+    padding: 10px 20px;
   }
 }
 
