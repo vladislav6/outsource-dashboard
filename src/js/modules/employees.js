@@ -3,6 +3,8 @@ import { getContent } from "./content";
 import { makeAssign } from "./assignments";
 import { getDetailsTable } from "./details";
 import { makeAvailability } from "./availability";
+import { changePosition } from "./editable";
+import { changeSalary } from "./editable";
 
 function getAge(date) {
   const currentYear = new Date().getFullYear();
@@ -23,7 +25,7 @@ function getAge(date) {
 }
 
 export function employeeTable(year, month) {
-  const table = createMyElement('table', 'table');
+  const table = createMyElement('table', 'table employees-table');
   const tr = createMyElement('tr');
   
   const thName = createMyElement('th', 'sortable filterable', 'Name');
@@ -71,8 +73,10 @@ export function employeeTable(year, month) {
           const tdName = createMyElement('td', '', name);
           const tdSurname = createMyElement('td', '', surname);
           const tdAge = createMyElement('td', '', age);
-          const tdPosition = createMyElement('td', '', position);
-          const tdSalary = createMyElement('td', '', `$${salary}`);
+          const tdPosition = createMyElement('td', `position editable`, position);
+          tdPosition.setAttribute('data-key', key);
+          const tdSalary = createMyElement('td', 'salary editable', `$${salary}`);
+          tdSalary.setAttribute('data-key', key);
           const tdPayment = createMyElement('td', '', `$${payment}`);
           const tdAssignments = createMyElement('td');
 
@@ -179,6 +183,42 @@ export function employeeTable(year, month) {
           table.append(tr);
         }
 
+        function cancelEdit(selector) {
+          if (document.querySelector(selector)){
+            const parent = document.querySelector(selector).parentNode;
+            parent.removeChild(document.querySelector(selector));
+            parent.classList.add('editable');
+          }
+        }
+
+        table.addEventListener('click', (e) => {
+          if (e.target.classList.contains('position')) {
+            cancelEdit('.select-position');
+            const key = e.target.getAttribute('data-key');
+            changePosition({
+              monthlyData,
+              year,
+              month,
+              td: e.target,
+              key
+            });
+            e.target.classList.remove('editable');
+          }
+
+          if (e.target.classList.contains('salary')) {
+            cancelEdit('.input-salary');
+            const key = e.target.getAttribute('data-key');
+            changeSalary({
+              monthlyData,
+              year,
+              month,
+              td: e.target,
+              key
+            });
+            e.target.classList.remove('editable');
+          }
+        });
+
         document.addEventListener('click', (e) => {
           if (
             document.querySelector('.popup') &&
@@ -187,7 +227,15 @@ export function employeeTable(year, month) {
             !document.querySelector('.overlay')
           ) {
             document.body.removeChild(document.querySelector('.popup'));
-          } 
+          }
+          if (!e.target.classList.contains('position')) {
+            cancelEdit('.select-position');
+          }
+          if (!e.target.classList.contains('salary')) {
+            if (!e.target.classList.contains('input-salary')) {
+              cancelEdit('.input-salary');
+            }
+          }
         });
         
       } else {

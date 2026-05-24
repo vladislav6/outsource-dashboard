@@ -12,14 +12,6 @@
       @include m.flex-settings (row, no-wrap, 5px, start, center);
     }
 
-    .sortable {
-      cursor: pointer;
-    }
-
-    .sortable:hover {
-      background-color: v.$dark-hover;
-    }
-
     .btn {
       padding: 5px 10px;
     }

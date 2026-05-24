@@ -1,0 +1,37 @@
+@use '../../common/variables' as v;
+
+.editable,
+.position,
+.salary,
+.sortable {
+  position: relative;
+  cursor: pointer;
+}
+
+.editable::after {
+  content: "";
+  opacity: 0;
+  background: url('/src/img/tools/edit.jpg') center no-repeat;
+  background-size: contain;
+  position: absolute;
+  right: 0;
+  top: calc(50% - 10px);
+  width: 20px;
+  height: 20px;
+  transition: 0.2s opacity ease;
+}
+
+.editable:hover::after {
+  opacity: 1;
+}
+
+.position select,
+.salary input {
+  position: absolute;
+  left: 0;
+  width: 100%;
+}
+
+.sortable:hover {
+  background-color: v.$dark-hover;
+}

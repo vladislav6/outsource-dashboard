@@ -165,12 +165,11 @@
     overflow: hidden;
     
     .modal {
-      height: 90vh;
+      height: auto;
       overflow: hidden;
 
       &-content {
-        height: 80vh;
-        overflow: scroll;
+        overflow-x: scroll;
 
         .table {
           margin-bottom: 50px;
