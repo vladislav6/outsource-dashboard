@@ -1,8 +1,7 @@
-import { clearDOM, createMyElement } from "../common/functions";
-import { formEmployee } from "../common/lists";
+import { createMyElement, cancelEdit } from "../common/functions";
 import { getContent } from "./content";
 
-export function changePosition(data) {
+function changePosition(data) {
   const {
     monthlyData,
     year,
@@ -26,13 +25,12 @@ export function changePosition(data) {
   
   select.addEventListener('change', () => {
     monthlyData[`${year}-${month}`].employees[key].position = select.value;
-    console.log(select.value);
     localStorage.setItem('monthlyData', JSON.stringify(monthlyData));
     getContent(1);
   });
 }
 
-export function changeSalary(data) {
+function changeSalary(data) {
   const {
     monthlyData,
     year,
@@ -67,4 +65,37 @@ export function changeSalary(data) {
   document.addEventListener('click', (e) => {
       onChangeSalary();
   });
+}
+
+export function editableTool(aboutEdit) {
+  const {
+    target,
+    monthlyData,
+    year,
+    month,
+  } = aboutEdit;
+
+  const key = target.getAttribute('data-key');
+  if (target.classList.contains('position')) {
+    cancelEdit('.select-position');
+    changePosition({
+      monthlyData,
+      year,
+      month,
+      td: target,
+      key
+    });
+  }
+
+  if (target.classList.contains('salary')) {
+    cancelEdit('.input-salary');
+    changeSalary({
+      monthlyData,
+      year,
+      month,
+      td: target,
+      key
+    });
+  }
+  target.classList.remove('editable');
 }

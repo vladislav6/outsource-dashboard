@@ -1,4 +1,4 @@
-import { clearDOM, createModal, createMyElement, getCurrentPeriod, createConfirm, getWorkDaysInMonth } from "../common/functions";
+import { clearDOM, createModal, createMyElement, createConfirm, getWorkDaysInMonth } from "../common/functions";
 import { weekDaysName, months } from "../common/lists";
 import { getContent } from "./content";
 

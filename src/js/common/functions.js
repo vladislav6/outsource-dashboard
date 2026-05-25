@@ -1,4 +1,6 @@
 import { months } from './lists';
+import { projectTable } from '../modules/projects';
+import { employeeTable } from '../modules/employees';
 
 export const getNumber = (n) => +Number(n).toFixed(2);
 export const closePopup = () => document.body.removeChild(document.querySelector('.popup'));
@@ -168,4 +170,61 @@ export function setBigTable() {
   if (rect.height + rect.x > document.body.offsetHeight) {
     document.querySelector('.modal').classList.add('big-table');
   }
+}
+
+export function createTooltip(aboutTooltip) {
+  const {
+    targetElement,
+    tooltipClass,
+    tooltipStringContent,
+    tooltipHtmlContent,
+    position
+  } = aboutTooltip;
+  const rect = targetElement.getBoundingClientRect();
+  const tooltip = createMyElement('div');
+  if (tooltipClass !== '') tooltip.classList.add(tooltipClass);
+  if (tooltipStringContent !== '') tooltip.textContent = tooltipStringContent;
+  if (tooltipHtmlContent !== '') tooltip.append(tooltipHtmlContent);
+  document.body.append(tooltip);
+
+  const leftPosition = position === 'start'
+    ? 0
+    : (tooltip.offsetWidth / 2);
+
+  tooltip.style.position = 'absolute';
+  tooltip.style.top = `${rect.top + rect.height + 10}px`;
+  tooltip.style.left = `${rect.left - leftPosition + (rect.width / 2)}px`;
+}
+
+export const removeTooltip = (event, tooltipClass = 'tooltip') => 
+  document.body.removeChild(document.querySelector(`.${tooltipClass}`));
+
+export function cancelEdit(selector) {
+  if (document.querySelector(selector)){
+    const parent = document.querySelector(selector).parentNode;
+    parent.removeChild(document.querySelector(selector));
+    parent.classList.add('editable');
+  }
+}
+
+export function drawContentTable(details) {
+  const {
+    table,
+    trThs,
+    pageId,
+    year,
+    month,
+    isDrawTable,
+    employees,
+    projects,
+    monthlyData
+  } = details;
+
+  const trTds = pageId === 0
+    ? projectTable(year, month, isDrawTable, monthlyData, employees, projects)
+    : employeeTable(year, month, monthlyData, employees, projects);
+  clearDOM(table);
+  table.append(trThs);
+  trTds.forEach((tr) => table.append(tr));
+  return table;
 }

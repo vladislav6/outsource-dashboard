@@ -1,26 +1,66 @@
 @use '../../common/variables' as v;
+@use '../../common/mixins' as m;
 
+.icon-wrapper {
+  @include m.flex-settings (row, no-wrap, 10px, center, center);
+  padding-top: 5px;
+}
+
+.filterable-btn,
 .editable,
 .position,
 .salary,
-.sortable {
+.sortable,
+.filterable {
   position: relative;
   cursor: pointer;
+  transition: 0.2s opacity ease;
 }
 
 .editable::after {
   content: "";
   opacity: 0;
-  background: url('/src/img/tools/edit.jpg') center no-repeat;
-  background-size: contain;
+  background: url('/src/img/tools/edit.png') center no-repeat;
   position: absolute;
   right: 0;
   top: calc(50% - 10px);
-  width: 20px;
-  height: 20px;
   transition: 0.2s opacity ease;
 }
 
+.sortable {
+  background: url('/src/img/tools/up-down.png') center no-repeat;
+  opacity: 0.3;
+}
+
+.sortable.up {
+  background: url('/src/img/tools/up.png') center no-repeat;
+  background-size: contain;
+}
+
+.sortable.down {
+  background: url('/src/img/tools/down.png') center no-repeat;
+  background-size: contain;
+}
+
+.filterable-btn,
+.filterable {
+  background: url('/src/img/tools/search.png') center no-repeat;
+  opacity: 0.3;
+}
+
+.filterable-btn,
+.editable::after,
+.sortable,
+.filterable {
+  display: block;
+  background-size: contain;
+  width: 16px;
+  height: 16px;
+}
+
+.filterable-btn:hover,
+.sortable:hover,
+.filterable:hover,
 .editable:hover::after {
   opacity: 1;
 }
@@ -30,8 +70,4 @@
   position: absolute;
   left: 0;
   width: 100%;
-}
-
-.sortable:hover {
-  background-color: v.$dark-hover;
 }

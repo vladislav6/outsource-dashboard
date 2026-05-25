@@ -1,5 +1,5 @@
 import { closePopup, createLabel, createMyElement, createPopup,
-  createRange, setPopupPosition, getNumber,onDisableButton, onActiveButton } from "../common/functions";
+  createRange, setPopupPosition, getNumber, onDisableButton, onActiveButton } from "../common/functions";
 import { getContent } from "./content";
 
 export function editAssign(popupPosition, aboutEdit) {
