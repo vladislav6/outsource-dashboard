@@ -6,6 +6,8 @@ export function projectHeadTable() {
   const thNameCompany = createMyElement('th', '', 'Company name');
   const iconWrapCompany = createMyElement('div', 'icon-wrapper');
   const iconFilterableCompany = createMyElement('span', 'filterable');
+  iconFilterableCompany.setAttribute('data-filter', 'company');
+  iconFilterableCompany.setAttribute('data-filter-label', 'Company name: ');
   const iconSortableCompany = createMyElement('span', 'sortable');
   iconWrapCompany.append(iconFilterableCompany, iconSortableCompany);
   thNameCompany.append(iconWrapCompany);
@@ -13,6 +15,8 @@ export function projectHeadTable() {
   const thNameProject = createMyElement('th', '', 'Project name');
   const iconWrapProject = createMyElement('div', 'icon-wrapper');
   const iconFilterableProject = createMyElement('span', 'filterable');
+  iconFilterableProject.setAttribute('data-filter', 'project');
+  iconFilterableProject.setAttribute('data-filter-label', 'Project name: ');
   const iconSortableProject = createMyElement('span', 'sortable');
   iconWrapProject.append(iconFilterableProject, iconSortableProject);
   thNameProject.append(iconWrapProject);

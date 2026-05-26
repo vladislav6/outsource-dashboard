@@ -71,3 +71,44 @@
   left: 0;
   width: 100%;
 }
+
+.filters-conteiner {
+  height: 50px;
+  @include m.flex-settings (row, no-wrap, 10px, start, center);
+
+  .clear-filter,
+  .filter-chip {
+    background-color: v.$assign-hover;
+    color: v.$static-white;
+    padding: 5px 10px;
+    border-radius: 25px;
+  }
+  
+  .chip-label {
+    font-size: 14px;
+  }
+
+  .remove-chip {
+    border-radius: 50%;
+    border: none;
+    background-color: v.$dark-select;
+    margin-left: 10px;
+    color: v.$static-white;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .remove-chip:hover {
+    background-color: v.$dark-hover;
+  }
+
+  .clear-filter {
+    background-color: v.$red;
+    cursor: pointer;
+    border: none;
+  }
+
+  .clear-filter:hover {
+    background-color: v.$red-hover;
+  }
+}

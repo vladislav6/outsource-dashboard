@@ -17,9 +17,19 @@ const {
   pageId,
   year,
   month,
+  employees,
+  projects,
   monthlyData
 } = aboutSort;
 
+  let projectSort = projects;
+  let employeeSort = employees;
+
+  if (pageId === 0) {
+    projectSort = [];
+  } else {
+    employeeSort = [];
+  }
 
   const selectors = [...document.querySelectorAll('.sortable')].filter((f) => f !== target);
   removeSort(selectors);
@@ -33,8 +43,8 @@ const {
       year,
       month,
       isDrawTable: true,
-      employees: [],
-      projects: [],
+      employees: employeeSort,
+      projects: projectSort,
       monthlyData
     });
   } else {
@@ -47,8 +57,8 @@ const {
       year,
       month,
       isDrawTable: true,
-      employees: [],
-      projects: [],
+      employees: employeeSort,
+      projects: projectSort,
       monthlyData
     });
   }

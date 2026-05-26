@@ -228,3 +228,6 @@ export function drawContentTable(details) {
   trTds.forEach((tr) => table.append(tr));
   return table;
 }
+
+export const filterData = (filterData, filterChip, filterValue) => 
+  filterData.filter((data) => data[filterChip].toLowerCase().includes(filterValue));

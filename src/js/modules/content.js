@@ -1,6 +1,6 @@
 import { projectTable } from "./projects";
 import { links, estIncomePerMonth } from "../common/lists";
-import { createMyElement, getCurrentPeriod, cancelEdit, drawContentTable, clearDOM, removeTooltip } from "../common/functions";
+import { createMyElement, getCurrentPeriod, cancelEdit, drawContentTable, clearDOM, removeTooltip, filterData } from "../common/functions";
 import { employeeHeadTable } from "./employee-head-table";
 import { projectHeadTable } from "./project-head-table";
 import { sortableTool } from "./sortable";
@@ -16,7 +16,9 @@ if (document.querySelector('.overlay .table')) {
 
 export function getContent(pageId, key = '') {
   const main = document.querySelector('.main');
+  const filtersConteiner = createMyElement('div', 'filters-conteiner');
   clearDOM(main);
+  main.prepend(filtersConteiner);
   let year = 0;
   let month = 0;
   let isDrawTable = true;
@@ -35,11 +37,12 @@ export function getContent(pageId, key = '') {
     if (monthlyData.hasOwnProperty(`${year}-${month}`)) {
 
       let employees = monthlyData[`${year}-${month}`].employees;
-      const projects = monthlyData[`${year}-${month}`].projects;
+      let projects = monthlyData[`${year}-${month}`].projects;
 
       if(!isDrawTable) {
         estIncomePerMonth.setIncome(`${year}-${month}`, projectTable(year, month, isDrawTable, monthlyData, employees, projects));
       } else {
+   
         const table = createMyElement('table', 'table');
         const trThs = pageId === 0 ? projectHeadTable() : employeeHeadTable();
         
@@ -56,7 +59,7 @@ export function getContent(pageId, key = '') {
         });
 
         main.append(fullTable);
-        
+
         table.addEventListener('click', (e) => {
           if (e.target.classList.contains('sortable')) {
             sortableTool({
@@ -66,6 +69,8 @@ export function getContent(pageId, key = '') {
               pageId,
               year,
               month,
+              employees,
+              projects,
               monthlyData
             });
           }
@@ -81,6 +86,12 @@ export function getContent(pageId, key = '') {
               employees,
               projects,
               monthlyData
+            }, (data) => {
+              if (pageId === 0) {
+                projects = data;
+              } else {
+                employees = data;
+              }
             });
           }
 
@@ -90,6 +101,58 @@ export function getContent(pageId, key = '') {
               monthlyData,
               year,
               month
+            });
+          }
+        });
+
+        filtersConteiner.addEventListener('click', (e) => {
+          if (e.target.classList.contains('clear-filter')) {
+            clearDOM(filtersConteiner);
+            employees = monthlyData[`${year}-${month}`].employees;
+            projects = monthlyData[`${year}-${month}`].projects;
+            drawContentTable({
+              table,
+              trThs,
+              pageId,
+              year,
+              month,
+              isDrawTable: true,
+              employees,
+              projects,
+              monthlyData
+            });
+          }
+
+          if (e.target.classList.contains('remove-chip')) {
+            employees = monthlyData[`${year}-${month}`].employees;
+            projects = monthlyData[`${year}-${month}`].projects;
+            filtersConteiner.removeChild(e.target.parentNode);
+            if (document.querySelectorAll('.filter-chip').length <= 1 && document.querySelector('.clear-filter')) {
+              filtersConteiner.removeChild(document.querySelector('.clear-filter'));
+            }
+            if (document.querySelectorAll('.filter-chip').length > 0) {
+              [...document.querySelectorAll('.filter-chip')].forEach((chip) => {
+                const filterValue = chip.querySelector('.chip-label').textContent.split(': ')[1];
+                const filter = chip.getAttribute('data-filter');
+                if (pageId === 0) {
+                  console.log(projects, filter, filterValue);
+                  projects = filterData(projects, filter, filterValue);
+                  console.log(projects);
+                } else {
+                  employees = filterData(employees, filter, filterValue);
+                }
+              });
+            }
+            drawContentTable({
+              table,
+              trThs,
+              pageId,
+              year,
+              month,
+              isDrawTable: true,
+              employees,
+              projects,
+              monthlyData
             });
           }
         });

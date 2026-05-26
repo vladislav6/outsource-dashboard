@@ -7,6 +7,7 @@ export function employeeHeadTable() {
   const iconWrapName = createMyElement('div', 'icon-wrapper');
   const iconFilterableName = createMyElement('span', 'filterable');
   iconFilterableName.setAttribute('data-filter', 'name');
+  iconFilterableName.setAttribute('data-filter-label', 'Name: ');
   const iconSortableName = createMyElement('span', 'sortable');
   iconWrapName.append(iconFilterableName, iconSortableName);
   thName.append(iconWrapName);
@@ -15,6 +16,7 @@ export function employeeHeadTable() {
   const iconWrapSurname = createMyElement('div', 'icon-wrapper');
   const iconFilterableSurname = createMyElement('span', 'filterable');
   iconFilterableSurname.setAttribute('data-filter', 'surname');
+  iconFilterableSurname.setAttribute('data-filter-label', 'Surname: ');
   const iconSortableSurname = createMyElement('span', 'sortable');
   iconWrapSurname.append(iconFilterableSurname, iconSortableSurname);
   thSurname.append(iconWrapSurname);
@@ -29,6 +31,7 @@ export function employeeHeadTable() {
   const iconWrapPosition = createMyElement('div', 'icon-wrapper');
   const iconFilterablePosition = createMyElement('span', 'filterable');
   iconFilterablePosition.setAttribute('data-filter', 'position');
+  iconFilterablePosition.setAttribute('data-filter-label', 'Position: ');
   const iconSortablePosition = createMyElement('span', 'sortable');
   iconWrapPosition.append(iconFilterablePosition, iconSortablePosition);
   thPosition.append(iconWrapPosition);
@@ -47,10 +50,8 @@ export function employeeHeadTable() {
 
   const thProject = createMyElement('th', '', 'Project');
   const iconWrapProject = createMyElement('div', 'icon-wrapper');
-  const iconFilterableProject = createMyElement('span', 'filterable');
-  iconFilterableProject.setAttribute('data-filter', 'project');
   const iconSortableProject = createMyElement('span', 'sortable');
-  iconWrapProject.append(iconFilterableProject, iconSortableProject);
+  iconWrapProject.append(iconSortableProject);
   thProject.append(iconWrapProject);
 
   const thProjectedIncome = createMyElement('th', '', 'Projected Income');
