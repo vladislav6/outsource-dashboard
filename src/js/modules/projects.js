@@ -55,7 +55,9 @@ export function projectTable(year, month, isDrawTable, monthlyData, employees, p
 
         employeeBtn.addEventListener('click', () => {
           document.body.append(overlay.overlay);
-          setBigTable();
+          const table = overlay.overlay.querySelector('.table');
+          const modal = overlay.overlay.querySelector('.modal');
+          setBigTable(table, modal);
         });
         tdEmployees.append(employeeBtn);
       } else {

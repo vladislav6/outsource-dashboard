@@ -261,11 +261,11 @@ export function createForm(aboutForm, classForm, asidePanelElement) {
 
       defaultOption.selected = true;
       defaultOption.value = '';
-      junior.value = 'junior';
-      middle.value = 'middle';
-      senior.value = 'senior';
-      lead.value = 'lead';
-      architect.value = 'architect';
+      junior.value = 'Junior';
+      middle.value = 'Middle';
+      senior.value = 'Senior';
+      lead.value = 'Lead';
+      architect.value = 'Architect';
       BO.value = 'BO';
 
       input.append(

@@ -3,15 +3,19 @@ import { projectTable } from '../modules/projects';
 import { employeeTable } from '../modules/employees';
 
 export const getNumber = (n) => +Number(n).toFixed(2);
+
 export const closePopup = () => document.body.removeChild(document.querySelector('.popup'));
+
 export const getAllAssignments = (employees) => employees
         .filter((employee) => employee.assignments.length !== 0)
         .flatMap((employee) => employee.assignments);
+
 export const onDisableButton = (btn) => {
   btn.classList.add('disable'); 
   btn.disabled  = true;
   return btn;
 }
+
 export const onActiveButton = (btn) => {
   btn.classList.remove('disable');
   btn.disabled  = false;
@@ -165,11 +169,13 @@ export function createLabel(aboutLabel) {
   return label;
 }
 
-export function setBigTable() {
-  const rect = document.querySelector('.overlay .table').getBoundingClientRect();
-  if (rect.height + rect.x > document.body.offsetHeight) {
-    document.querySelector('.modal').classList.add('big-table');
+export function setBigTable(table, modal) {
+  const rect = table.getBoundingClientRect();
+  if (rect.height + rect.x > window.innerHeight) {
+    modal.classList.add('big-table');
   }
+  console.log(rect);
+  console.log(window.innerHeight, rect.height + rect.x);
 }
 
 export function createTooltip(aboutTooltip) {
@@ -192,7 +198,7 @@ export function createTooltip(aboutTooltip) {
     : (tooltip.offsetWidth / 2);
 
   tooltip.style.position = 'absolute';
-  tooltip.style.top = `${rect.top + rect.height + 10}px`;
+  tooltip.style.top = `${window.scrollY + rect.top + rect.height + 10}px`;
   tooltip.style.left = `${rect.left - leftPosition + (rect.width / 2)}px`;
 }
 
@@ -230,7 +236,7 @@ export function drawContentTable(details) {
 }
 
 export const filterData = (filterData, filterChip, filterValue) => 
-  filterData.filter((data) => data[filterChip].toLowerCase().includes(filterValue));
+  filterData.filter((data) => data[filterChip].toLowerCase().includes(filterValue.toLowerCase()));
 
 export function getAge(date) {
   const currentYear = new Date().getFullYear();

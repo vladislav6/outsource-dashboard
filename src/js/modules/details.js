@@ -41,7 +41,6 @@ export function getDetailsTable(details) {
         'surname': employee.surname,
         'salary': employee.salary,
         'vacation': employee.vacationDays,
-        'key': index,
         'assignments': employee.assignments 
       }
     );
@@ -99,7 +98,7 @@ export function getDetailsTable(details) {
           isProject: details.thTitle === 'Employee',
           name: title,
           projectId,
-          key: employeeDetails[employeeId].key,
+          employeeId,
           project:
           details.thTitle === 'Employee'
             ? projectDetails[projectId].project
@@ -128,8 +127,7 @@ export function getDetailsTable(details) {
           name: `${employeeDetails[employeeId].name} ${employeeDetails[employeeId].surname}`,
           employeeId,
           projectId,
-          key: employeeDetails[employeeId].key,
-          employeeCapacity: capacity,
+          employeeCapacity: usedEffectiveCapacity,
           project: projectDetails[projectId].project,
           cost: payment,
           revenue: employeeRevenue,

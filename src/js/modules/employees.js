@@ -34,9 +34,9 @@ export function employeeTable(year, month, monthlyData, employees, projects) {
       const tdSurname = createMyElement('td', '', surname);
       const tdAge = createMyElement('td', '', age);
       const tdPosition = createMyElement('td', `position editable`, position);
-      tdPosition.setAttribute('data-key', key);
+      tdPosition.setAttribute('data-id', id);
       const tdSalary = createMyElement('td', 'salary editable', `$${salary}`);
-      tdSalary.setAttribute('data-key', key);
+      tdSalary.setAttribute('data-id', id);
       const tdPayment = createMyElement('td', '', `$${payment}`);
       const tdAssignments = createMyElement('td', 'project');
 
@@ -56,7 +56,9 @@ export function employeeTable(year, month, monthlyData, employees, projects) {
         const assignmentDetails = `Assignments ${assignmentCount} and employee capacity ${currentCapacityEmployee} / ${maxCapacity}`;
         showAssignments.addEventListener('click', () => {
           document.body.append(overlayAssignments.overlay);
-          setBigTable();
+          const table = overlayAssignments.overlay.querySelector('.table');
+          const modal = overlayAssignments.overlay.querySelector('.modal');
+          setBigTable(table, modal);
         });
         showAssignments.addEventListener('mouseover', (e) =>
           createTooltip({
@@ -113,7 +115,6 @@ export function employeeTable(year, month, monthlyData, employees, projects) {
         monthlyData,
         year,
         month,
-        key,
         id
       };
 
@@ -126,13 +127,13 @@ export function employeeTable(year, month, monthlyData, employees, projects) {
         }
       });
 
-      availability.addEventListener('click', () => makeAvailability({
+      availability.addEventListener('click', (e) => makeAvailability({
         name: `${name} ${surname}`,
         year,
         month,
         monthlyData,
         vacation: vacationDays,
-        key
+        id
       }));
 
       tdAssignments.append(showAssignments);

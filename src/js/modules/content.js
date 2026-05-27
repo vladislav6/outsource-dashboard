@@ -6,13 +6,69 @@ import { projectHeadTable } from "./project-head-table";
 import { sortableTool } from "./sortable";
 import { filterableTool } from "./filterable";
 import { editableTool } from "./editable";
+import testData from '../common/defualtData.json';
 
-if (document.querySelector('.overlay .table')) {
-  const rect = document.querySelector('.overlay .table').getBoundingClientRect();
-  if (rect.height + rect.x > document.body.offsetHeight) {
-    document.querySelector('.modal').classList.add('big-table');
+function setDataToLocalStorage() {
+  if (localStorage.getItem('monthlyData')) {
+    const monthlyData = JSON.parse(localStorage.getItem('monthlyData'));
+    const month = getCurrentPeriod().month;
+    const year = getCurrentPeriod().year;
+    for (let key in monthlyData) {
+      if (
+        monthlyData[key].projects.length === 0 &&
+        monthlyData[key].employees.length === 0
+      ) {
+        delete monthlyData[key];
+      }
+    }
+    if (!monthlyData.hasOwnProperty(`${year}-${month}`)) {
+      monthlyData[`${year}-${month}`] = {
+        projects: [],
+        employees: []
+      };
+      localStorage.setItem('monthlyData', JSON.stringify(monthlyData));
+    }
   }
 }
+
+document.querySelector('.months').addEventListener('change', setDataToLocalStorage);
+document.querySelector('.years').addEventListener('change', setDataToLocalStorage);
+
+window.addEventListener('pagehide', () => {
+  const monthlyData = JSON.parse(localStorage.getItem('monthlyData'));
+  for (let key in monthlyData) {
+    if (
+      monthlyData[key].projects.length === 0 &&
+      monthlyData[key].employees.length === 0
+      ) {
+      delete monthlyData[key];
+    }
+  }
+  Object.keys(monthlyData).length !== 0 ?
+    localStorage.setItem('monthlyData', JSON.stringify(monthlyData)) :
+    localStorage.removeItem('monthlyData');
+});
+
+window.addEventListener('load', () => {
+  const month = getCurrentPeriod().month;
+  const year = getCurrentPeriod().year;
+  const initialData = {
+    ...testData,
+    [`${year}-${month}`]: {
+      projects: [],
+      employees: []
+    }
+  };
+  if (!localStorage.getItem('monthlyData')) {
+    localStorage.setItem('monthlyData', JSON.stringify(initialData));
+  } else {
+    const monthlyData = JSON.parse(localStorage.getItem('monthlyData'));
+    if (!monthlyData.hasOwnProperty(`${year}-${month}`)) {
+      Object.assign(monthlyData, initialData);
+      localStorage.setItem('monthlyData', JSON.stringify(monthlyData));
+    }
+  }
+});
 
 function getNewFilteredData(data) {
   let result = [];
@@ -52,7 +108,6 @@ export function getContent(pageId, key = '') {
       if(!isDrawTable) {
         estIncomePerMonth.setIncome(`${year}-${month}`, projectTable(year, month, isDrawTable, monthlyData, employees, projects));
       } else {
-   
         const table = createMyElement('table', 'table');
         const trThs = pageId === 0 ? projectHeadTable() : employeeHeadTable();
 

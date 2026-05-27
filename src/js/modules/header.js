@@ -128,7 +128,9 @@ export function getHeader(page) {
     btn.addEventListener('click', () => {
       if (key === 'seedData') {
         makeSeedData(getCurrentPeriod());
-        setBigTable();
+        const table = document.querySelector('.overlay .table');
+        const modal = document.querySelector('.overlay .modal');
+        setBigTable(table, modal);
       } else {
         addButtons(key);
       }

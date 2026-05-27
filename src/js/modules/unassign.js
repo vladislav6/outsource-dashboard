@@ -9,7 +9,6 @@ export function unassign(details) {
     name,
     employeeId,
     projectId,
-    key,
     employeeCapacity,
     project,
     cost,
@@ -47,55 +46,58 @@ export function unassign(details) {
   currentProjectCapacity.append(currentProjectCapacityValue);
 
   const capacityAfterUnassignment = createMyElement('div', 'financ-detail', 'Capacity After Unassignment:');
-  const capacityAfterUnassignmentValue = createMyElement('span', '',
+  const capacityAfterUnassignmentValue = createMyElement(
+    'span',
+    '',
     `${getNumber(projectCapacity - employeeCapacity)} / ${projectCapacityDefault}`);
   capacityAfterUnassignment.append(capacityAfterUnassignmentValue);
   
   const PIN = getNumber(projectBudjet - cost);
   const incomeClassPIN = PIN >= 0 ? 'profit' : 'loss';
   const projectIncomeNow = createMyElement('div', 'financ-detail', 'Project Income Now:');
-  const projectIncomeNowValue =
-    createMyElement('span', `income ${incomeClassPIN}`, `$${PIN}`);
+  const projectIncomeNowValue = createMyElement('span', `income ${incomeClassPIN}`, `$${PIN}`);
   projectIncomeNow.append(projectIncomeNowValue);
 
   const PIA = getNumber(PIN + cost);
   const incomeClassPIA = PIA >= 0 ? 'profit' : 'loss';
   const projectIncomeAfter = createMyElement('div', 'financ-detail', 'Project Income After:');
-  const projectIncomeAfterValue =
-    createMyElement('span', `income ${incomeClassPIA}`, `$${PIA}`);
+  const projectIncomeAfterValue = createMyElement('span', `income ${incomeClassPIA}`, `$${PIA}`);
   projectIncomeAfter.append(projectIncomeAfterValue);
 
-  const assignBtn = createMyElement('button', 'btn assign-btn', 'Unassign');
-  const assignCnl = createMyElement('button', 'btn assign-cnl', 'Cancel');
+  const unassignBtn = createMyElement('button', 'btn assign-btn', 'Unassign');
+  const unassignCnl = createMyElement('button', 'btn assign-cnl', 'Cancel');
   const btnBlock = createMyElement('div', 'assign-btn-block');
-  btnBlock.append(assignBtn, assignCnl);
+  btnBlock.append(unassignBtn, unassignCnl);
 
-  assignBtn.addEventListener('click', () => {
+  unassignBtn.addEventListener('click', () => {
     if (localStorage.getItem('monthlyData')) {
       const monthlyData = JSON.parse(localStorage.getItem('monthlyData'));
-      const assings = monthlyData[`${year}-${month}`].employees[key].assignments.filter((assign) => assign.projectId !== projectId);
-      monthlyData[`${year}-${month}`].employees[key].assignments = assings;
-      localStorage.setItem('monthlyData', JSON.stringify(monthlyData));
-      document.body.removeChild(document.querySelectorAll('.overlay')[0]);
-      document.body.removeChild(document.querySelectorAll('.overlay')[0]);
-      getContent(Number(document.querySelector('.active').getAttribute('data-id')));
-      const assignments = thTitle === 'Employee'
-        ? getAllAssignments(monthlyData[`${year}-${month}`].employees).filter((f) => f.projectId === projectId)
-        : assings;
-      const overlay = getDetailsTable({
-        modalTitle,
-        thTitle,
-        assign: assignments,
-        projects: monthlyData[`${year}-${month}`].projects,
-        employees: monthlyData[`${year}-${month}`].employees,
-        year,
-        month
+      monthlyData[`${year}-${month}`].employees.forEach((employee) => {
+        if (employee.id === details.employeeId) {
+          const assings = employee.assignments.filter((assign) => assign.projectId !== projectId);
+          employee.assignments = assings;
+          localStorage.setItem('monthlyData', JSON.stringify(monthlyData));
+          [...document.querySelectorAll('.overlay')].forEach((element) => document.body.removeChild(element));
+          getContent(Number(document.querySelector('.active').getAttribute('data-id')));
+          const assignments = thTitle === 'Employee'
+            ? getAllAssignments(monthlyData[`${year}-${month}`].employees).filter((f) => f.projectId === projectId)
+            : assings;
+          const overlay = getDetailsTable({
+            modalTitle,
+            thTitle,
+            assign: assignments,
+            projects: monthlyData[`${year}-${month}`].projects,
+            employees: monthlyData[`${year}-${month}`].employees,
+            year,
+            month
+          });
+          document.body.append(overlay.overlay);
+        }
       });
-      document.body.append(overlay.overlay);
     }
   });
 
-  assignCnl.addEventListener('click', () => document.body.removeChild(overlay));
+  unassignCnl.addEventListener('click', () => document.body.removeChild(overlay));
 
   financialDetails.append(assignedCapacity, employeeSalaryShare, budgetShare, employeeEstIncome, currentProjectCapacity, capacityAfterUnassignment, projectIncomeNow, projectIncomeAfter, btnBlock);
 

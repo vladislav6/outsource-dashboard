@@ -7,7 +7,7 @@ function changePosition(data) {
     year,
     month,
     td,
-    key
+    id
   } = data;
 
   const select = createMyElement('select', 'select-position');
@@ -24,9 +24,13 @@ function changePosition(data) {
   td.append(select);
   
   select.addEventListener('change', () => {
-    monthlyData[`${year}-${month}`].employees[key].position = select.value;
-    localStorage.setItem('monthlyData', JSON.stringify(monthlyData));
-    getContent(1);
+    monthlyData[`${year}-${month}`].employees.forEach((employee) => {
+      if (employee.id === id) {
+        employee.position = select.value;
+        localStorage.setItem('monthlyData', JSON.stringify(monthlyData));
+        getContent(1);
+      }
+    });
   });
 }
 
@@ -36,7 +40,7 @@ function changeSalary(data) {
     year,
     month,
     td,
-    key
+    id
   } = data;
 
   const input = createMyElement('input', 'input-salary');
@@ -49,10 +53,14 @@ function changeSalary(data) {
 
   const onChangeSalary = () => {
     if (currentSalary !== input.value && Number(input.value) > 0) {
-      monthlyData[`${year}-${month}`].employees[key].salary = input.value;
-      localStorage.setItem('monthlyData', JSON.stringify(monthlyData));
-      getContent(1);
-      input.value = 0;
+      monthlyData[`${year}-${month}`].employees.forEach((employee) => {
+        if (employee.id === id) {
+          employee.salary = input.value;
+          localStorage.setItem('monthlyData', JSON.stringify(monthlyData));
+          getContent(1);
+          input.value = 0;
+        }
+      });
     }
   };
 
@@ -62,7 +70,7 @@ function changeSalary(data) {
     }
   });
 
-  document.addEventListener('click', (e) => {
+  document.addEventListener('click', () => {
       onChangeSalary();
   });
 }
@@ -75,7 +83,7 @@ export function editableTool(aboutEdit) {
     month,
   } = aboutEdit;
 
-  const key = target.getAttribute('data-key');
+  const id = target.getAttribute('data-id');
   if (target.classList.contains('position')) {
     cancelEdit('.select-position');
     changePosition({
@@ -83,7 +91,7 @@ export function editableTool(aboutEdit) {
       year,
       month,
       td: target,
-      key
+      id
     });
   }
 
@@ -94,7 +102,7 @@ export function editableTool(aboutEdit) {
       year,
       month,
       td: target,
-      key
+      id
     });
   }
   target.classList.remove('editable');

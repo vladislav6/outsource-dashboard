@@ -1,8 +1,6 @@
 import { months, years } from '../common/lists';
 import { createMyElement } from '../common/functions';
 
-const period = document.querySelector('.period');
-
 function addSelectMonthOptions (options) {
   const selectMonths = document.querySelector('.months');
   const currentMonth = new Date().getMonth();

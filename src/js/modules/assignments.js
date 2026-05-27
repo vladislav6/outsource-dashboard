@@ -44,9 +44,8 @@ export function makeAssign(popupPosition, aboutPopup) {
     const option = createMyElement(
       'option',
       '',
-      `${aboutPopup.projects[key].project}
-      (${aboutPopup.projects[key].company})
-      Available: ${getNumber(aboutPopup.projects[key].capacity - currentCapacityProject)}`);
+      `${aboutPopup.projects[key].project} 
+      (${getNumber(aboutPopup.projects[key].capacity - currentCapacityProject)} / ${aboutPopup.projects[key].capacity})`);
     option.value = key;
     select.append(option);
   }
@@ -235,17 +234,21 @@ export function makeAssign(popupPosition, aboutPopup) {
   });
 
   assignBtn.addEventListener('click', () => {
-    aboutPopup.monthlyData[`${aboutPopup.year}-${aboutPopup.month}`].employees[aboutPopup.key].assignments.push({
-      projectId: projectData[selectedProject].id,
-      employeeId: aboutPopup.id,
-      capacity: capacityValue,
-      fit: fitValue
+    aboutPopup.monthlyData[`${aboutPopup.year}-${aboutPopup.month}`].employees.forEach((employee) => {
+      if (employee.id === aboutPopup.id) {
+        employee.assignments.push({
+          projectId: projectData[selectedProject].id,
+          employeeId: aboutPopup.id,
+          capacity: capacityValue,
+          fit: fitValue
+        });
+        localStorage.setItem('monthlyData', JSON.stringify(aboutPopup.monthlyData));
+        if (document.querySelector('.popup')) {
+          document.body.removeChild(document.querySelector('.popup'));
+        }
+        getContent(1);
+      }
     });
-    localStorage.setItem('monthlyData', JSON.stringify(aboutPopup.monthlyData));
-    if (document.querySelector('.popup')) {
-      document.body.removeChild(document.querySelector('.popup'));
-    }
-    getContent(1);
   });
 
   label.append(select);

@@ -103,17 +103,20 @@ export function editAssign(popupPosition, aboutEdit) {
     const monthlyData = localStorage.getItem('monthlyData')
       ? JSON.parse(localStorage.getItem('monthlyData'))
       : {};
-    const assignments = monthlyData[`${aboutEdit.year}-${aboutEdit.month}`].employees[aboutEdit.key].assignments;
-    for (let assign in assignments) {
-      if (assignments[assign].projectId === aboutEdit.projectId) {
-        assignments[assign].capacity = capacityRange.value;
-        assignments[assign].fit = fitRange.value;
+    monthlyData[`${aboutEdit.year}-${aboutEdit.month}`].employees.forEach((employee) => {
+      if (employee.id === aboutEdit.employeeId) {
+        for (let assign in employee.assignments) {
+          if (employee.assignments[assign].projectId === aboutEdit.projectId) {
+            employee.assignments[assign].capacity = capacityRange.value;
+            employee.assignments[assign].fit = fitRange.value;
+          }
+        }
+        localStorage.setItem('monthlyData', JSON.stringify(monthlyData));
+        getContent(Number(document.querySelector('.active').getAttribute('data-id')));
+        document.body.removeChild(document.querySelector('.popup'));
+        document.body.removeChild(document.querySelector('.overlay'));
       }
-    }
-    localStorage.setItem('monthlyData', JSON.stringify(monthlyData));
-    getContent(Number(document.querySelector('.active').getAttribute('data-id')));
-    document.body.removeChild(document.querySelector('.popup'));
-    document.body.removeChild(document.querySelector('.overlay'));
+    });
   });
 
   btnBlock.append(editBtn, editCnl);

@@ -105,26 +105,29 @@ export function makeAvailability(details) {
   overlay.addEventListener('click', (e) => {
     if (e.target.classList.contains('overlay') || e.target.classList.contains('modal-close')) {
       const monthlyData = JSON.parse(localStorage.getItem('monthlyData'));
-      const writtenVacationData =
-        [...monthlyData[`${details.year}-${details.month}`].employees[details.key].vacationDays].sort((a, b) => a - b);
-      const newVacationData = [...details.vacation].sort((a, b) => a - b);
-      const areEqual = writtenVacationData.length === newVacationData.length &&
-                        writtenVacationData.every((value, index) => value === newVacationData[index]);
-      if (!areEqual) {
-        document.body.append(createConfirm('Vacation days have been changed. Apply the changes?'));
-        if (document.body.querySelector('.confirm')) {
-          document.body.querySelector('.confirm').addEventListener('click', () => {
-            monthlyData[`${details.year}-${details.month}`].employees[details.key].vacationDays = details.vacation.filter((f) => f !== '');
-            localStorage.setItem('monthlyData', JSON.stringify(monthlyData));
-            getContent(1);
-            [...document.querySelectorAll('.overlay')].forEach((element) => document.body.removeChild(element));
-          });
-          document.body.querySelector('.cancel').addEventListener('click', () => {
-            getContent(1);
-            document.body.removeChild(document.querySelector('.overlay'));
-          });
+      monthlyData[`${details.year}-${details.month}`].employees.forEach((employee) => {
+        if (employee.id === details.id) {
+          const writtenVacationData = [...employee.vacationDays].sort((a, b) => a - b);
+          const newVacationData = [...details.vacation].sort((a, b) => a - b);
+          const areEqual = writtenVacationData.length === newVacationData.length && writtenVacationData
+            .every((value, index) => value === newVacationData[index]);
+          if (!areEqual) {
+            document.body.append(createConfirm('Vacation days have been changed. Apply the changes?'));
+            if (document.body.querySelector('.confirm')) {
+              document.body.querySelector('.confirm').addEventListener('click', () => {
+                employee.vacationDays = details.vacation.filter((f) => f !== '');
+                localStorage.setItem('monthlyData', JSON.stringify(monthlyData));
+                getContent(1);
+                [...document.querySelectorAll('.overlay')].forEach((element) => document.body.removeChild(element));
+              });
+              document.body.querySelector('.cancel').addEventListener('click', () => {
+                getContent(1);
+                document.body.removeChild(document.querySelector('.overlay'));
+              });
+            }
+          }
         }
-      }
+      });
     }
   });
 
@@ -159,9 +162,13 @@ export function makeAvailability(details) {
   workDaysBlock(workDaysCount);
 
   setVacation.addEventListener('click', () => {
-    details.monthlyData[`${details.year}-${details.month}`].employees[details.key].vacationDays = vacation.filter((f) => f !== '');
-    localStorage.setItem('monthlyData', JSON.stringify(details.monthlyData));
-    document.body.removeChild(document.querySelector('.overlay'));
-    getContent(1);
+    details.monthlyData[`${details.year}-${details.month}`].employees.forEach((employee) => {
+      if (employee.id === details.id) {
+        employee.vacationDays = vacation.filter((f) => f !== '');
+        localStorage.setItem('monthlyData', JSON.stringify(details.monthlyData));
+        document.body.removeChild(document.querySelector('.overlay'));
+        getContent(1);
+      }
+    });
   });
 }

@@ -1,0 +1,648 @@
+{
+  "2025-0": {
+    "projects": [
+      {
+        "id": "740537",
+        "project": "LandingPageRedesign",
+        "company": "PixelForgeStudio",
+        "budget": "18500",
+        "capacity": "3"
+      },
+      {
+        "id": "720231",
+        "project": "MobileAppUIDesign",
+        "company": "NovaDigital",
+        "budget": "32000",
+        "capacity": "4"
+      },
+      {
+          "id": "044328",
+          "project": "BrandIdentityRefresh",
+          "company": "LuminaCreative",
+          "budget": "14500",
+          "capacity": "2"
+      },
+      {
+          "id": "768299",
+          "project": "EcommerceProductCatalog",
+          "company": "ShopSphereInc",
+          "budget": "27800",
+          "capacity": "5"
+      },
+      {
+          "id": "164039",
+          "project": "CorporateDashboardDevelopment",
+          "company": "VertexSolutions",
+          "budget": "41200",
+          "capacity": "4"
+      },
+      {
+          "id": "380766",
+          "project": "SEOOptimizationCampaign",
+          "company": "GrowthPathAgency",
+          "budget": "9800",
+          "capacity": "2"
+      },
+      {
+          "id": "063710",
+          "project": "CustomCRMIntegration",
+          "company": "StreamlineTech",
+          "budget": "36500",
+          "capacity": "5"
+      },
+      {
+          "id": "059303",
+          "project": "SocialMediaAutomationTool",
+          "company": "ConnectlyLabs",
+          "budget": "22400",
+          "capacity": "3"
+      },
+      {
+          "id": "961441",
+          "project": "WebsitePerformanceAudit",
+          "company": "SwiftByte",
+          "budget": "8700",
+          "capacity": "1"
+      },
+      {
+          "id": "644931",
+          "project": "AIChatbotImplementation",
+          "company": "IntelliMindSystems",
+          "budget": "29500",
+          "capacity": "4"
+      },
+      {
+          "id": "192772",
+          "project": "MobileWalletPrototype",
+          "company": "FinoraInnovations",
+          "budget": "31800",
+          "capacity": "5"
+      },
+      {
+          "id": "696471",
+          "project": "ContentManagementSystem",
+          "company": "ContentFlow",
+          "budget": "25100",
+          "capacity": "3"
+      },
+      {
+          "id": "880583",
+          "project": "EmailMarketingPlatform",
+          "company": "MailPulse",
+          "budget": "16700",
+          "capacity": "2"
+      },
+      {
+          "id": "315197",
+          "project": "InventoryManagementApp",
+          "company": "StockWise",
+          "budget": "28900",
+          "capacity": "4"
+      },
+      {
+          "id": "810601",
+          "project": "CompanyPortfolioWebsite",
+          "company": "ElevateStudio",
+          "budget": "12400",
+          "capacity": "2"
+      },
+      {
+          "id": "872088",
+          "project": "DataVisualizationTool",
+          "company": "InsightGrid",
+          "budget": "33400",
+          "capacity": "5"
+      },
+      {
+          "id": "892948",
+          "project": "PaymentGatewayIntegration",
+          "company": "PayForge",
+          "budget": "19800",
+          "capacity": "3"
+      },
+      {
+          "id": "680607",
+          "project": "HRManagementSystem",
+          "company": "TalentFlow",
+          "budget": "27600",
+          "capacity": "4"
+      },
+      {
+          "id": "753621",
+          "project": "VirtualEventPlatform",
+          "company": "EventSphere",
+          "budget": "21500",
+          "capacity": "3"
+      },
+      {
+          "id": "746628",
+          "project": "SaaSAnalyticsDashboard",
+          "company": "Metricly",
+          "budget": "39200",
+          "capacity": "5"
+      }
+  ],
+  "employees": [
+      {
+          "id": "910894",
+          "name": "Abigail",
+          "surname": "Jackson",
+          "dob": "1998-04-10",
+          "salary": "1715",
+          "position": "Junior",
+          "assignments": [],
+          "vacationDays": []
+      },
+      {
+          "id": "534631",
+          "name": "Emily",
+          "surname": "Ramirez",
+          "dob": "1985-04-29",
+          "salary": "6464",
+          "position": "Senior",
+          "assignments": [],
+          "vacationDays": []
+      },
+      {
+          "id": "002334",
+          "name": "Mia",
+          "surname": "White",
+          "dob": "1988-06-02",
+          "salary": "1350",
+          "position": "Junior",
+          "assignments": [],
+          "vacationDays": []
+      },
+      {
+          "id": "770407",
+          "name": "Ethan",
+          "surname": "Martinez",
+          "dob": "1986-09-23",
+          "salary": "1201",
+          "position": "Junior",
+          "assignments": [],
+          "vacationDays": []
+      },
+      {
+          "id": "288770",
+          "name": "Lucas",
+          "surname": "Jones",
+          "dob": "2000-12-21",
+          "salary": "5949",
+          "position": "Senior",
+          "assignments": [],
+          "vacationDays": []
+      },
+      {
+          "id": "866725",
+          "name": "Andrew",
+          "surname": "Miller",
+          "dob": "1986-11-21",
+          "salary": "2757",
+          "position": "Middle",
+          "assignments": [],
+          "vacationDays": []
+      },
+      {
+          "id": "040736",
+          "name": "Samuel",
+          "surname": "Jones",
+          "dob": "1988-06-11",
+          "salary": "2605",
+          "position": "Middle",
+          "assignments": [],
+          "vacationDays": []
+      },
+      {
+          "id": "024269",
+          "name": "Ava",
+          "surname": "Lewis",
+          "dob": "1984-06-14",
+          "salary": "4681",
+          "position": "Senior",
+          "assignments": [],
+          "vacationDays": []
+      },
+      {
+          "id": "045914",
+          "name": "Avery",
+          "surname": "Davis",
+          "dob": "2003-08-08",
+          "salary": "1252",
+          "position": "Junior",
+          "assignments": [],
+          "vacationDays": []
+      },
+      {
+          "id": "492066",
+          "name": "Emily",
+          "surname": "Lee",
+          "dob": "1995-04-09",
+          "salary": "2905",
+          "position": "Middle",
+          "assignments": [],
+          "vacationDays": []
+      },
+      {
+          "id": "512506",
+          "name": "Jack",
+          "surname": "Davis",
+          "dob": "1993-12-29",
+          "salary": "2912",
+          "position": "Middle",
+          "assignments": [],
+          "vacationDays": []
+      },
+      {
+          "id": "164697",
+          "name": "Sophia",
+          "surname": "Miller",
+          "dob": "1980-08-09",
+          "salary": "1035",
+          "position": "Junior",
+          "assignments": [],
+          "vacationDays": []
+      },
+      {
+          "id": "193335",
+          "name": "Lucas",
+          "surname": "Rodriguez",
+          "dob": "2002-11-15",
+          "salary": "1697",
+          "position": "Junior",
+          "assignments": [],
+          "vacationDays": []
+      },
+      {
+          "id": "712041",
+          "name": "James",
+          "surname": "Thomas",
+          "dob": "1996-01-09",
+          "salary": "2897",
+          "position": "Middle",
+          "assignments": [],
+          "vacationDays": []
+      },
+      {
+          "id": "561776",
+          "name": "Sofia",
+          "surname": "Martin",
+          "dob": "2003-12-16",
+          "salary": "4168",
+          "position": "Senior",
+          "assignments": [],
+          "vacationDays": []
+      },
+      {
+          "id": "940077",
+          "name": "Daniel",
+          "surname": "Brown",
+          "dob": "1994-02-09",
+          "salary": "1488",
+          "position": "Junior",
+          "assignments": [],
+          "vacationDays": []
+      },
+      {
+          "id": "160642",
+          "name": "Amelia",
+          "surname": "Hernandez",
+          "dob": "1987-05-07",
+          "salary": "2922",
+          "position": "Middle",
+          "assignments": [],
+          "vacationDays": []
+      },
+      {
+          "id": "746505",
+          "name": "Isabella",
+          "surname": "Martinez",
+          "dob": "1981-08-23",
+          "salary": "940",
+          "position": "Junior",
+          "assignments": [],
+          "vacationDays": []
+      },
+      {
+          "id": "621165",
+          "name": "Ethan",
+          "surname": "Anderson",
+          "dob": "1999-07-15",
+          "salary": "3124",
+          "position": "Middle",
+          "assignments": [],
+          "vacationDays": []
+      },
+      {
+          "id": "527698",
+          "name": "Harper",
+          "surname": "Taylor",
+          "dob": "1992-03-12",
+          "salary": "5123",
+          "position": "Senior",
+          "assignments": [],
+          "vacationDays": []
+      },
+      {
+          "id": "091909",
+          "name": "William",
+          "surname": "Garcia",
+          "dob": "1991-11-20",
+          "salary": "2489",
+          "position": "Middle",
+          "assignments": [],
+          "vacationDays": []
+      },
+      {
+          "id": "357465",
+          "name": "Charlotte",
+          "surname": "Thompson",
+          "dob": "1997-06-18",
+          "salary": "1420",
+          "position": "Junior",
+          "assignments": [],
+          "vacationDays": []
+      },
+      {
+          "id": "299308",
+          "name": "Benjamin",
+          "surname": "Wilson",
+          "dob": "1989-09-05",
+          "salary": "5780",
+          "position": "Senior",
+          "assignments": [],
+          "vacationDays": []
+      },
+      {
+          "id": "083548",
+          "name": "Evelyn",
+          "surname": "Moore",
+          "dob": "1995-01-30",
+          "salary": "2650",
+          "position": "Middle",
+          "assignments": [],
+          "vacationDays": []
+      },
+      {
+          "id": "483991",
+          "name": "Henry",
+          "surname": "Clark",
+          "dob": "2001-05-22",
+          "salary": "1580",
+          "position": "Junior",
+          "assignments": [],
+          "vacationDays": []
+      },
+      {
+          "id": "358780",
+          "name": "Elizabeth",
+          "surname": "Rodriguez",
+          "dob": "1983-12-08",
+          "salary": "4890",
+          "position": "Senior",
+          "assignments": [],
+          "vacationDays": []
+      },
+      {
+          "id": "552153",
+          "name": "Alexander",
+          "surname": "Lee",
+          "dob": "1990-04-17",
+          "salary": "3200",
+          "position": "Middle",
+          "assignments": [],
+          "vacationDays": []
+      },
+      {
+          "id": "983033",
+          "name": "Mia",
+          "surname": "Harris",
+          "dob": "1998-10-25",
+          "salary": "1650",
+          "position": "Junior",
+          "assignments": [],
+          "vacationDays": []
+      },
+      {
+          "id": "385935",
+          "name": "Jack",
+          "surname": "Martin",
+          "dob": "1994-07-03",
+          "salary": "4300",
+          "position": "Senior",
+          "assignments": [],
+          "vacationDays": []
+      },
+      {
+          "id": "862297",
+          "name": "Sophia",
+          "surname": "Anderson",
+          "dob": "2000-02-14",
+          "salary": "2750",
+          "position": "Middle",
+          "assignments": [],
+          "vacationDays": []
+      },
+      {
+          "id": "314200",
+          "name": "David",
+          "surname": "Thomas",
+          "dob": "1987-08-19",
+          "salary": "5200",
+          "position": "Senior",
+          "assignments": [],
+          "vacationDays": []
+      },
+      {
+          "id": "164818",
+          "name": "Olivia",
+          "surname": "White",
+          "dob": "1996-11-11",
+          "salary": "1380",
+          "position": "Junior",
+          "assignments": [],
+          "vacationDays": []
+      },
+      {
+          "id": "641553",
+          "name": "Michael",
+          "surname": "Perez",
+          "dob": "1993-03-28",
+          "salary": "2950",
+          "position": "Middle",
+          "assignments": [],
+          "vacationDays": []
+      },
+      {
+          "id": "687156",
+          "name": "Ava",
+          "surname": "Gonzalez",
+          "dob": "1989-06-15",
+          "salary": "6100",
+          "position": "Senior",
+          "assignments": [],
+          "vacationDays": []
+      },
+      {
+          "id": "888535",
+          "name": "James",
+          "surname": "Robinson",
+          "dob": "2002-09-07",
+          "salary": "1120",
+          "position": "Junior",
+          "assignments": [],
+          "vacationDays": []
+      },
+      {
+          "id": "501914",
+          "name": "Emma",
+          "surname": "Clark",
+          "dob": "1991-12-01",
+          "salary": "3100",
+          "position": "Middle",
+          "assignments": [],
+          "vacationDays": []
+      },
+      {
+          "id": "538402",
+          "name": "Daniel",
+          "surname": "Lewis",
+          "dob": "1984-05-10",
+          "salary": "5500",
+          "position": "Senior",
+          "assignments": [],
+          "vacationDays": []
+      },
+      {
+          "id": "007563",
+          "name": "Isabella",
+          "surname": "Walker",
+          "dob": "1997-04-22",
+          "salary": "2680",
+          "position": "Middle",
+          "assignments": [],
+          "vacationDays": []
+      },
+      {
+          "id": "511070",
+          "name": "Lucas",
+          "surname": "Hall",
+          "dob": "2001-10-30",
+          "salary": "1490",
+          "position": "Junior",
+          "assignments": [],
+          "vacationDays": []
+      },
+      {
+          "id": "526422",
+          "name": "Charlotte",
+          "surname": "Young",
+          "dob": "1986-01-12",
+          "salary": "4800",
+          "position": "Senior",
+          "assignments": [],
+          "vacationDays": []
+      },
+      {
+          "id": "937900",
+          "name": "Henry",
+          "surname": "Allen",
+          "dob": "1995-08-27",
+          "salary": "2850",
+          "position": "Middle",
+          "assignments": [],
+          "vacationDays": []
+      },
+      {
+          "id": "490118",
+          "name": "Amelia",
+          "surname": "King",
+          "dob": "1999-02-19",
+          "salary": "1320",
+          "position": "Junior",
+          "assignments": [],
+          "vacationDays": []
+      },
+      {
+          "id": "628057",
+          "name": "William",
+          "surname": "Wright",
+          "dob": "1988-07-09",
+          "salary": "5900",
+          "position": "Senior",
+          "assignments": [],
+          "vacationDays": []
+      },
+      {
+          "id": "161485",
+          "name": "Sophia",
+          "surname": "Scott",
+          "dob": "1993-05-05",
+          "salary": "3050",
+          "position": "Middle",
+          "assignments": [],
+          "vacationDays": []
+      },
+      {
+          "id": "991492",
+          "name": "Alexander",
+          "surname": "Green",
+          "dob": "1982-11-18",
+          "salary": "6400",
+          "position": "Senior",
+          "assignments": [],
+          "vacationDays": []
+      },
+      {
+          "id": "713978",
+          "name": "Mia",
+          "surname": "Baker",
+          "dob": "2000-06-23",
+          "salary": "1550",
+          "position": "Junior",
+          "assignments": [],
+          "vacationDays": []
+      },
+      {
+          "id": "134697",
+          "name": "Ethan",
+          "surname": "Adams",
+          "dob": "1994-09-14",
+          "salary": "2780",
+          "position": "Middle",
+          "assignments": [],
+          "vacationDays": []
+      },
+      {
+          "id": "966064",
+          "name": "Olivia",
+          "surname": "Nelson",
+          "dob": "1987-03-03",
+          "salary": "4650",
+          "position": "Senior",
+          "assignments": [],
+          "vacationDays": []
+      },
+      {
+          "id": "137148",
+          "name": "Benjamin",
+          "surname": "Carter",
+          "dob": "1996-12-12",
+          "salary": "2920",
+          "position": "Middle",
+          "assignments": [],
+          "vacationDays": []
+      },
+      {
+          "id": "816363",
+          "name": "Alex",
+          "surname": "Johnson",
+          "dob": "1998-05-12",
+          "salary": "1200",
+          "position": "Junior",
+          "assignments": [],
+          "vacationDays": []
+      }
+    ]
+  }
+}
