@@ -9,6 +9,7 @@ export function employeeHeadTable() {
   iconFilterableName.setAttribute('data-filter', 'name');
   iconFilterableName.setAttribute('data-filter-label', 'Name: ');
   const iconSortableName = createMyElement('span', 'sortable');
+  iconSortableName.setAttribute('data-column', 'name');
   iconWrapName.append(iconFilterableName, iconSortableName);
   thName.append(iconWrapName);
 
@@ -18,12 +19,14 @@ export function employeeHeadTable() {
   iconFilterableSurname.setAttribute('data-filter', 'surname');
   iconFilterableSurname.setAttribute('data-filter-label', 'Surname: ');
   const iconSortableSurname = createMyElement('span', 'sortable');
+  iconSortableSurname.setAttribute('data-column', 'surname');
   iconWrapSurname.append(iconFilterableSurname, iconSortableSurname);
   thSurname.append(iconWrapSurname);
 
   const thAge = createMyElement('th', '', 'Age');
   const iconWrapAge = createMyElement('div', 'icon-wrapper');
   const iconSortableAge = createMyElement('span', 'sortable');
+  iconSortableAge.setAttribute('data-column', 'dob');
   iconWrapAge.append(iconSortableAge);
   thAge.append(iconWrapAge);
 
@@ -33,33 +36,20 @@ export function employeeHeadTable() {
   iconFilterablePosition.setAttribute('data-filter', 'position');
   iconFilterablePosition.setAttribute('data-filter-label', 'Position: ');
   const iconSortablePosition = createMyElement('span', 'sortable');
+  iconSortablePosition.setAttribute('data-column', 'position');
   iconWrapPosition.append(iconFilterablePosition, iconSortablePosition);
   thPosition.append(iconWrapPosition);
 
   const thSalary = createMyElement('th', '', 'Salary');
   const iconWrapSalary = createMyElement('div', 'icon-wrapper');
   const iconSortableSalary = createMyElement('span', 'sortable');
+  iconSortableSalary.setAttribute('data-column', 'salary');
   iconWrapSalary.append(iconSortableSalary);
   thSalary.append(iconWrapSalary);
 
   const thEstimatedPayment = createMyElement('th', '', 'Estimated Payment');
-  const iconWrapPayment = createMyElement('div', 'icon-wrapper');
-  const iconSortablePayment = createMyElement('span', 'sortable');
-  iconWrapPayment.append(iconSortablePayment);
-  thEstimatedPayment.append(iconWrapPayment);
-
   const thProject = createMyElement('th', '', 'Project');
-  const iconWrapProject = createMyElement('div', 'icon-wrapper');
-  const iconSortableProject = createMyElement('span', 'sortable');
-  iconWrapProject.append(iconSortableProject);
-  thProject.append(iconWrapProject);
-
   const thProjectedIncome = createMyElement('th', '', 'Projected Income');
-  const iconWrapIncome = createMyElement('div', 'icon-wrapper');
-  const iconSortableIncome = createMyElement('span', 'sortable');
-  iconWrapIncome.append(iconSortableIncome);
-  thProjectedIncome.append(iconWrapIncome);
-
   const thActions = createMyElement('th', '', 'Actions');
 
   tr.append(thName, thSurname, thAge, thPosition, thSalary, thEstimatedPayment, thProject, thProjectedIncome, thActions);

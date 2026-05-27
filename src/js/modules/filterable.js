@@ -75,14 +75,14 @@ export function filterableTool(aboutFilter, callback) {
         callback(employeeFilter);
       }
       drawContentTable({
+        isDrawTable: true,
+        employees: employeeFilter,
+        projects: projectFilter,
         table,
         trThs,
         pageId,
         year,
         month,
-        isDrawTable: true,
-        employees: employeeFilter,
-        projects: projectFilter,
         monthlyData
       });
     }

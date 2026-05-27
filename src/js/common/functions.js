@@ -209,14 +209,14 @@ export function cancelEdit(selector) {
 
 export function drawContentTable(details) {
   const {
+    isDrawTable,
+    employees,
+    projects,
     table,
     trThs,
     pageId,
     year,
     month,
-    isDrawTable,
-    employees,
-    projects,
     monthlyData
   } = details;
 
@@ -231,3 +231,21 @@ export function drawContentTable(details) {
 
 export const filterData = (filterData, filterChip, filterValue) => 
   filterData.filter((data) => data[filterChip].toLowerCase().includes(filterValue));
+
+export function getAge(date) {
+  const currentYear = new Date().getFullYear();
+  const currentMonth = new Date().getMonth();
+  const currentDay = new Date().getDate();
+  const [year, month, day] = date.split('-').map((n) => Number(n));
+
+  let age = currentYear - year;
+  if (currentMonth < month - 1) {
+    age -= 1;
+  } else if (currentMonth === month - 1) {
+    if (currentDay < day) {
+      age -= 1;
+    }
+  }
+
+  return age;
+}

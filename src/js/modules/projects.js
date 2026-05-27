@@ -11,7 +11,7 @@ export function projectTable(year, month, isDrawTable, monthlyData, employees, p
   const assignments = getAllAssignments(employees);
   assignments.forEach(assign => assign ? counts[assign.projectId] = (counts[assign.projectId] || 0) + 1 : '');
 
-  if (projects.length !== 0) {
+  if (projects && projects.length !== 0) {
     for (let key in projects) {
       const {
         id,

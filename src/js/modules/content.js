@@ -14,6 +14,16 @@ if (document.querySelector('.overlay .table')) {
   }
 }
 
+function getNewFilteredData(data) {
+  let result = [];
+  [...document.querySelectorAll('.filter-chip')].forEach((chip) => {
+    const filterValue = chip.querySelector('.chip-label').textContent.split(': ')[1];
+    const filter = chip.getAttribute('data-filter');
+      result = filterData(data, filter, filterValue);
+  });
+  return result;
+}
+
 export function getContent(pageId, key = '') {
   const main = document.querySelector('.main');
   const filtersConteiner = createMyElement('div', 'filters-conteiner');
@@ -45,47 +55,48 @@ export function getContent(pageId, key = '') {
    
         const table = createMyElement('table', 'table');
         const trThs = pageId === 0 ? projectHeadTable() : employeeHeadTable();
-        
-        const fullTable = drawContentTable({
+
+        const mainData = {
           table,
           trThs,
           pageId,
           year,
           month,
+          monthlyData
+        };
+
+        const fullTable = drawContentTable({
           isDrawTable,
           employees,
           projects,
-          monthlyData
+          ...mainData
         });
 
         main.append(fullTable);
 
         table.addEventListener('click', (e) => {
           if (e.target.classList.contains('sortable')) {
+            if (document.querySelectorAll('.filter-chip').length > 0) {
+              if (pageId === 0 ) {
+                projects = getNewFilteredData(projects);
+              } else {
+                employees = getNewFilteredData(employees);
+              }
+            }
             sortableTool({
               target: e.target,
-              table,
-              trThs,
-              pageId,
-              year,
-              month,
               employees,
               projects,
-              monthlyData
+              ...mainData
             });
           }
 
           if (e.target.classList.contains('filterable')) {
             filterableTool({
               target: e.target,
-              table,
-              trThs,
-              pageId,
-              year,
-              month,
               employees,
               projects,
-              monthlyData
+              ...mainData
             }, (data) => {
               if (pageId === 0) {
                 projects = data;
@@ -111,15 +122,10 @@ export function getContent(pageId, key = '') {
             employees = monthlyData[`${year}-${month}`].employees;
             projects = monthlyData[`${year}-${month}`].projects;
             drawContentTable({
-              table,
-              trThs,
-              pageId,
-              year,
-              month,
               isDrawTable: true,
               employees,
               projects,
-              monthlyData
+              ...mainData
             });
           }
 
@@ -131,28 +137,17 @@ export function getContent(pageId, key = '') {
               filtersConteiner.removeChild(document.querySelector('.clear-filter'));
             }
             if (document.querySelectorAll('.filter-chip').length > 0) {
-              [...document.querySelectorAll('.filter-chip')].forEach((chip) => {
-                const filterValue = chip.querySelector('.chip-label').textContent.split(': ')[1];
-                const filter = chip.getAttribute('data-filter');
-                if (pageId === 0) {
-                  console.log(projects, filter, filterValue);
-                  projects = filterData(projects, filter, filterValue);
-                  console.log(projects);
-                } else {
-                  employees = filterData(employees, filter, filterValue);
-                }
-              });
+              if (pageId === 0 ) {
+                projects = getNewFilteredData(projects);
+              } else {
+                employees = getNewFilteredData(employees);
+              }
             }
             drawContentTable({
-              table,
-              trThs,
-              pageId,
-              year,
-              month,
               isDrawTable: true,
               employees,
               projects,
-              monthlyData
+              ...mainData
             });
           }
         });

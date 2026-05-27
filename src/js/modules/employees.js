@@ -1,33 +1,15 @@
 import {
   createMyElement, noData, createConfirm, getEmployeeCurrentCapacity,
-  getNumber, setBigTable, createTooltip, removeTooltip
+  getNumber, setBigTable, createTooltip, removeTooltip, getAge
 } from "../common/functions";
 import { getContent } from "./content";
 import { makeAssign } from "./assignments";
 import { getDetailsTable } from "./details";
 import { makeAvailability } from "./availability";
 
-export function getAge(date) {
-  const currentYear = new Date().getFullYear();
-  const currentMonth = new Date().getMonth();
-  const currentDay = new Date().getDate();
-  const [year, month, day] = date.split('-').map((n) => Number(n));
-
-  let age = currentYear - year;
-  if (currentMonth < month - 1) {
-    age -= 1;
-  } else if (currentMonth === month - 1) {
-    if (currentDay < day) {
-      age -= 1;
-    }
-  }
-
-  return age;
-}
-
 export function employeeTable(year, month, monthlyData, employees, projects) {
   const trs = [];
-  if (employees.length !== 0) {
+  if (employees && employees.length !== 0) {
     for (let key in employees) {
       const {
         id,
@@ -56,7 +38,7 @@ export function employeeTable(year, month, monthlyData, employees, projects) {
       const tdSalary = createMyElement('td', 'salary editable', `$${salary}`);
       tdSalary.setAttribute('data-key', key);
       const tdPayment = createMyElement('td', '', `$${payment}`);
-      const tdAssignments = createMyElement('td');
+      const tdAssignments = createMyElement('td', 'project');
 
       let showAssignments = '-';
       const overlayAssignments = getDetailsTable({
